@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <title>Slack Tools on GAE/Go</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="/media/css/bootstrap.min.css">
+  <style>
+  body {
+  padding-top: 70px;
+  padding-bottom: 30px;
+  }
+  @media (min-width: 1200px) {
+  .container {
+  width: 970px;
+  }
+  }
+  .blog-header {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  }
+  .blog-title {
+  margin-top: 30px;
+  margin-bottom: 0;
+  font-size: 60px;
+  font-weight: normal;
+  }
+  .blog-description {
+  font-size: 20px;
+  color: #999;
+  }
+  .blog-main {
+  font-size: 18px;
+  line-height: 1.5;
+  }
+
+  /* Sidebar modules for boxing content */
+  .sidebar-module {
+  padding: 15px;
+  margin: 0 -15px 15px;
+  }
+  .sidebar-module-inset {
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  }
+  .sidebar-module-inset p:last-child,
+  .sidebar-module-inset ul:last-child,
+  .sidebar-module-inset ol:last-child {
+  margin-bottom: 0;
+  }
+
+
+  /* Pagination */
+  .pager {
+  margin-bottom: 60px;
+  text-align: left;
+  }
+  .pager > li > a {
+  width: 140px;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 30px;
+  }
+
+
+  /*
+  * Blog posts
+  */
+
+  .blog-post {
+  margin-bottom: 60px;
+  }
+  .blog-post-title {
+  margin-bottom: 5px;
+  font-size: 40px;
+  }
+  .blog-post-meta {
+  margin-bottom: 20px;
+  color: #999;
+  }
+  </style>
+</head>
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Slack Tools</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="https://github.com/yosukesuzuki/go-malt">Github</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div>
+    {{.LayoutContent}}
+    <hr/>
+  </div>
+  <!-- /container -->
+  <script src="/media/js/bootstrap-without-jquery.min.js"></script>
+</body>
+</html>
