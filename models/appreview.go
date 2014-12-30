@@ -7,7 +7,7 @@ import (
 	"appengine/datastore"
 )
 
-// AppReview is a kind which stores reviews of a app, a record == a review
+// AppReview is a kind which stores reviews of a app, a entity == a review
 type AppReview struct {
 	AppID    string    `json:"app_id" datastore:"app_id"`
 	ReviewID string    `json:"review_id" datastore:"app_id"`
@@ -25,6 +25,7 @@ func (ar *AppReview) key(c appengine.Context) *datastore.Key {
 
 // Save puts to datastore
 func (ar *AppReview) Save(c appengine.Context) (*AppReview, error) {
+	ar.Created = time.Now()
 	_, err := datastore.Put(c, ar.key(c), ar)
 	if err != nil {
 		return nil, err
