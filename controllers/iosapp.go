@@ -45,6 +45,7 @@ package controllers
 import (
 	"encoding/json"
 	"io"
+	"log"
 
 	"models"
 
@@ -68,12 +69,14 @@ func (this *IOSAppController) Get() {
 	// for i := 0; i < len(iosapps); i++ {
 	// 	iosapps[i].Id = ks[i].IntID()
 	// }
-	this.Data["json"] = iosapps
+	listDataSet := map[string]interface{}{"items": iosapps}
+	this.Data["json"] = listDataSet
 }
 
 func (this *IOSAppController) Post() {
 	iosapp, err := decodeIOSApp(this.Ctx.Input.Request.Body)
 	if err != nil {
+		log.Println("decode err")
 		this.Data["json"] = err
 		return
 	}
@@ -120,7 +123,7 @@ func (this *IOSAppController) DeleteEntity() {
 
 func (this *IOSAppController) Render() error {
 	if _, ok := this.Data["json"].(error); ok {
-		this.AppEngineCtx.Errorf("todo error: %v", this.Data["json"])
+		this.AppEngineCtx.Errorf("iosapp error: %v", this.Data["json"])
 	}
 	this.ServeJson()
 	return nil
