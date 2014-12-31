@@ -16,9 +16,23 @@ handlers:
 - url: /media
   static_dir: media
 
-# - url: /admin/.*
-#   script: _go_app 
-#   login: admin
+- url: /admin/.*
+  script: _go_app 
+  login: admin
 
 - url: /.*
   script: _go_app
+
+skip_files: |
+  ^(.*/)?(
+  (casptertests/.*)|
+  (app\.yaml)|
+  (app\.yml)|
+  (index\.yaml)|
+  (index\.yml)|
+  (#.*#)|
+  (.*~)|
+  (\.gitignore)|
+  (README\.md)|
+  (LICENSE)|
+  )$

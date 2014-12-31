@@ -29,3 +29,5 @@ _testmain.go
 
 # mac files
 *.DS_Store
+
+node_modules/*

@@ -61,7 +61,7 @@ type IOSAppController struct {
 
 func (this *IOSAppController) Get() {
 	iosapps := []models.IOSApp{}
-	_, err := datastore.NewQuery("IOSApp").Order("-update").GetAll(this.AppEngineCtx, &iosapps)
+	_, err := datastore.NewQuery("IOSApp").Order("-updated_at").GetAll(this.AppEngineCtx, &iosapps)
 	if err != nil {
 		this.Data["json"] = err
 		return
@@ -80,7 +80,7 @@ func (this *IOSAppController) Post() {
 		this.Data["json"] = err
 		return
 	}
-	i, err := iosapp.Save(this.AppEngineCtx)
+	i, err := iosapp.Create(this.AppEngineCtx)
 	if err != nil {
 		this.Data["json"] = err
 	} else {
@@ -102,7 +102,7 @@ func (this *IOSAppController) UpdateEntity() {
 		this.Data["json"] = decodeErr
 		return
 	}
-	i, err := iosapp.Save(this.AppEngineCtx)
+	i, err := iosapp.Update(this.AppEngineCtx)
 	if err != nil {
 		this.Data["json"] = err
 	} else {

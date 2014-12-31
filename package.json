@@ -1,0 +1,28 @@
+{
+  "name": "slack-tools",
+  "version": "1.0.0",
+  "description": "crud for slack tools",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yosukesuzuki/slacktools.git"
+  },
+  "author": "",
+  "license": "The MIT License",
+  "bugs": {
+    "url": "https://github.com/yosukesuzuki/slacktools/issues"
+  },
+  "homepage": "https://github.com/yosukesuzuki/slacktools",
+  "devDependencies": {
+    "coffee-script": "^1.8.0",
+    "coffeeify": "^1.0.0",
+    "gulp": "^3.8.10",
+    "gulp-browserify": "^0.5.0",
+    "gulp-plumber": "^0.6.6",
+    "gulp-rename": "^1.2.0",
+    "gulp-watch": "^3.0.0"
+  }
+}

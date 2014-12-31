@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="blog-header">
+    <h1 class="blog-title">AppStore review notification</h1>
+    <p class="lead blog-description">When a review is posted to AppStore, notification is send to your slack channel</p>
+  </div>
+  <div class="row">
+    <div class="col-sm-8 blog-main">
+      <p>
+        <a href="/admin/iosapp/form" class="btn btn-primary" id="createEntity">Create new entity</a>
+      </p>
+      <table id="content-list-table" class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>App ID</th>
+            <th></th>
+            <th>Update</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-repeat="items">
+            <td>{{`{{title}}`}}</td>
+            <td>{{`{{app_id}}`}}</td>
+            <td>{{`{{updated_at}}`}}</td>
+            <td><a class="btn btn-default btn-sm" v-on="click: UpdateEntity">Update</a></td>
+            <td><button class="btn btn-danger btn-sm" v-on="click: deleteEntity">delete</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script src="/media/js/vue.min.js"></script>
+<script src="/media/js/app.js"></script>

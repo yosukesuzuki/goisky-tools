@@ -3,7 +3,7 @@ system = require 'system'
 # load global settings
 settings = require '../helpers/settings'
 
-casper.test.begin 'test ios app api', 3, (test) ->
+casper.test.begin 'test ios app api', 4, (test) ->
 
   casper.thenOpen settings.baseURL() + "/admin/api/v1/iosapp", ->
     test.assertHttpStatus 200
@@ -36,6 +36,15 @@ casper.test.begin 'test ios app api', 3, (test) ->
       "Content-Type": "application/json; charset=utf-8"
   , ->
     @echo "POST request has been sent."
+    test.assertHttpStatus 200
+    @echo @getPageContent()
+
+  casper.thenOpen settings.baseURL() + "/admin/api/v1/iosapp/app_id2",
+    method: "delete"
+    headers:
+      "Content-Type": "application/json; charset=utf-8"
+  , ->
+    @echo "DELETE request has been sent."
     test.assertHttpStatus 200
     @echo @getPageContent()
 

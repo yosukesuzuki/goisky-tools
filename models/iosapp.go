@@ -13,8 +13,8 @@ type IOSApp struct {
 	Title      string    `json:"title" datastore:"title"`
 	WebhookURL string    `json:"webhook_url" datastore:"webhook_url"`
 	Content    string    `json:"content" datastore:"content,noindex"`
-	Update     time.Time `json:"update" datastore:"update"`
-	Created    time.Time `json:"created" datastore:"created"`
+	UpdatedAt  time.Time `json:"updated_at" datastore:"updated_at"`
+	CreatedAt  time.Time `json:"created_at" datastore:"created_at"`
 }
 
 func (ia *IOSApp) key(c appengine.Context) *datastore.Key {
@@ -22,9 +22,18 @@ func (ia *IOSApp) key(c appengine.Context) *datastore.Key {
 	return datastore.NewKey(c, "IOSApp", keyName, 0, nil)
 }
 
-func (ia *IOSApp) Save(c appengine.Context) (*IOSApp, error) {
-	ia.Created = time.Now()
-	ia.Update = time.Now()
+func (ia *IOSApp) Create(c appengine.Context) (*IOSApp, error) {
+	ia.CreatedAt = time.Now()
+	ia.UpdatedAt = time.Now()
+	_, err := datastore.Put(c, ia.key(c), ia)
+	if err != nil {
+		return nil, err
+	}
+	return ia, nil
+}
+
+func (ia *IOSApp) Update(c appengine.Context) (*IOSApp, error) {
+	ia.UpdatedAt = time.Now()
 	_, err := datastore.Put(c, ia.key(c), ia)
 	if err != nil {
 		return nil, err
