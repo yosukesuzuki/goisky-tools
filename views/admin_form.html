@@ -13,9 +13,14 @@
           <div v-if="fieldType == 'textarea'">
             <textarea name="{{`{{fieldName}}`}}" id="f_{{`{{fieldName}}`}}" v-model="fieldValue"></textarea>
           </div>
+          <div v-if="fieldType == 'select'">
+            <select v-model="fieldValue">
+              <option value="{{`{{$value}}`}}" v-repeat="options">{{`{{$key}}`}}</option>
+            </select>
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-lg active" id="submitButton">Submit</button>
-        <button type="button" class="btn btn-default btn-lg active" v-on="click:cancel">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-lg" id="submitButton">Submit</button>
+        <button type="button" class="btn btn-default btn-lg" v-on="click:cancel">Cancel</button>
       </form>
     </div>
   </div>
