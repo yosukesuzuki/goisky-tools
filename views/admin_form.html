@@ -1,0 +1,25 @@
+<div class="container" id="form-container">
+  <div class="blog-header">
+    <h1 class="blog-title">{{`{{formTitle}}`}}</h1>
+  </div>
+  <div class="row">
+    <div class="col-sm-8 blog-main">
+      <form class="form" role="form" v-on="submit:submitUpdate">
+        <div class="form-group" v-repeat="items">
+          <label for="f_{{`{{fieldName}}`}}">{{`{{fieldTitle}}`}}</label>
+          <div v-if="fieldType == 'inputtext'">
+            <input type="text" class="form-control" name="{{`{{fieldName}}`}}" id="f_{{`{{fieldName}}`}}" v-model="fieldValue">
+          </div>
+          <div v-if="fieldType == 'textarea'">
+            <textarea name="{{`{{fieldName}}`}}" id="f_{{`{{fieldName}}`}}" v-model="fieldValue"></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg active" id="submitButton">Submit</button>
+        <button type="button" class="btn btn-default btn-lg active" v-on="click:cancel">Cancel</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="/media/js/vue.superagent.min.js"></script>
+<script src="/media/js/moment.min.js"></script>
+<script src="/media/js/app.js"></script>
