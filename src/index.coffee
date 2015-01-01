@@ -4,17 +4,11 @@ document.addEventListener "DOMContentLoaded", (event) ->
   return
 
 IOSApp = ->
-  xhr = new XMLHttpRequest()
-  xhr.open "GET", "/admin/api/v1/iosapp", true
-  xhr.onload = (e) ->
-    # console.log xhr.responseText  if @status is 200
-    items = JSON.parse(xhr.responseText)
-    console.log items
+  request = window.superagent
+  request.get "/admin/api/v1/iosapp", (res) ->
+    items = res.body
     listVue = new Vue(
       el: "#content-list-table"
       data:
         items: items.items
     )
-    return
-
-  xhr.send()
