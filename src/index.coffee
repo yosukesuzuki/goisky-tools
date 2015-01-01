@@ -12,3 +12,9 @@ IOSApp = ->
       data:
         items: items.items
     )
+
+Vue.filter "dateFormat", (value) ->
+  value = value.replace(/T/, " ")
+  localTime = moment.utc(value.slice(0, 16)).toDate()
+  localTime = moment(localTime).format("YYYY-MM-DD HH:mm (Z)")
+  localTime

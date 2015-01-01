@@ -22,7 +22,7 @@
           <tr v-repeat="items">
             <td>{{`{{title}}`}}</td>
             <td>{{`{{app_id}}`}}</td>
-            <td>{{`{{updated_at}}`}}</td>
+            <td>{{`{{updated_at | dateFormat}}`}}</td>
             <td><a class="btn btn-default btn-sm" v-on="click: UpdateEntity">Update</a></td>
             <td><button class="btn btn-danger btn-sm" v-on="click: deleteEntity">delete</button></td>
           </tr>
@@ -32,4 +32,5 @@
   </div>
 </div>
 <script src="/media/js/vue.superagent.min.js"></script>
+<script src="/media/js/moment.min.js"></script>
 <script src="/media/js/app.js"></script>
