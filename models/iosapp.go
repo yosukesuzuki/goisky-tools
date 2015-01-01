@@ -13,6 +13,7 @@ type IOSApp struct {
 	Title      string    `json:"title" datastore:"title"`
 	WebhookURL string    `json:"webhook_url" datastore:"webhook_url"`
 	Content    string    `json:"content" datastore:"content,noindex"`
+	Region     string    `json:"region" datastore:"region"`
 	UpdatedAt  time.Time `json:"updated_at" datastore:"updated_at"`
 	CreatedAt  time.Time `json:"created_at" datastore:"created_at"`
 }

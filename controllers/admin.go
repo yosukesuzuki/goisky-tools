@@ -27,3 +27,12 @@ func (this *AdminIOSAppController) Get() {
 	this.Layout = "layout.html"
 	this.TplNames = "admin_iosapp.html"
 }
+
+type AdminFormController struct {
+	beegae.Controller
+}
+
+func (this *AdminFormController) Get() {
+	this.Layout = "layout.html"
+	this.TplNames = "admin_form.html"
+}
