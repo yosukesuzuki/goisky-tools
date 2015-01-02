@@ -10,7 +10,6 @@ func init() {
 	beegae.TemplateRight = "}}}"
 	beegae.Router("/admin/api/v1/iosapp/:key_name", &controllers.IOSAppController{}, "patch:UpdateEntity;delete:DeleteEntity")
 	beegae.Router("/admin/api/v1/iosapp", &controllers.IOSAppController{})
-	beegae.Router("/admin/iosapp", &controllers.AdminIOSAppController{})
 	beegae.Router("/admin/form", &controllers.AdminFormController{})
 	beegae.Router("/admin/", &controllers.AdminController{})
 	beegae.Router("/", &controllers.MainController{})
