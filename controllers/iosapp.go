@@ -88,6 +88,18 @@ func (this *IOSAppController) Post() {
 	}
 }
 
+func (this *IOSAppController) GetEntity() {
+	keyName := this.Ctx.Input.Param(":key_name")
+	key := datastore.NewKey(this.AppEngineCtx, "IOSApp", keyName, 0, nil)
+	var iosapp models.IOSApp
+	getErr := datastore.Get(this.AppEngineCtx, key, &iosapp)
+	if getErr != nil {
+		this.Data["json"] = getErr
+		return
+	} else {
+		this.Data["json"] = &iosapp
+	}
+}
 func (this *IOSAppController) UpdateEntity() {
 	keyName := this.Ctx.Input.Param(":key_name")
 	key := datastore.NewKey(this.AppEngineCtx, "IOSApp", keyName, 0, nil)
