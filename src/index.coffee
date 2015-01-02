@@ -1,32 +1,42 @@
 document.addEventListener "DOMContentLoaded", (event) ->
   console.log "DOM fully loaded and parsed"
-  modelName = location.pathname.split("/")[2]
-  switch modelName
+  pathName = location.pathname.split("/")[2]
+  switch pathName
     when "form" then BuildForm()
-    when "iosapp" then IOSApp()
   return
 
 BuildForm = ->
-  modelName = location.hash.split("/")[1]
+  hashArr = location.hash.split("/")
+  modelName = hashArr[1]
+  crudMethod = hashArr[2]
   schema = schemas[modelName]
-  console.log schema
+  switch crudMethod
+    when "update" then BuildFormUpdate(schema)
+    when "list" then BuildFormList(schema)
+
+BuildFormUpdate = (schema) ->
   formVue = new Vue(
     el: "#form-container"
+    template: "#formTemplate"
     data:
       formTitle: schema.formTitle
       items: schema.schema
   )
 
-
-IOSApp = ->
+BuildFormList = (schema) ->
+  listVue = new Vue(
+    el: "#form-container"
+    template: "#listTemplate"
+    data:
+      formTitle: schema.formTitle
+      formDescription: schema.formDescription
+      items: []
+  )
   request = window.superagent
   request.get "/admin/api/v1/iosapp", (res) ->
     items = res.body
-    listVue = new Vue(
-      el: "#content-list-table"
-      data:
-        items: items.items
-    )
+    listVue.$data.items = items.items
+
 
 Vue.filter "dateFormat", (value) ->
   value = value.replace(/T/, " ")
@@ -139,16 +149,16 @@ iOSAppSchema = [
     fieldType:"textarea"
   }
   {
-    fieldTitle: "Region"
+    fieldTitle:"Region"
     fieldName:"region"
     fieldType:"select"
     options: appStores
   }
 ]
 
-
 schemas =
   iosapp:
     schema:iOSAppSchema
+    schemaId: "iosapp"
     formTitle:"AppStore App settings"
-    formDescription:"set the app id of your application"
+    formDescription:"When a review is posted to AppStore, notification is send to your slack channel"

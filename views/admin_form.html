@@ -1,21 +1,23 @@
 <div class="container" id="form-container">
+</div>
+<script type="x-template" id="formTemplate">
   <div class="blog-header">
-    <h1 class="blog-title">{{`{{formTitle}}`}}</h1>
+    <h1 class="blog-title">{{formTitle}}</h1>
   </div>
   <div class="row">
     <div class="col-sm-8 blog-main">
       <form class="form" role="form" v-on="submit:submitUpdate">
         <div class="form-group" v-repeat="items">
-          <label for="f_{{`{{fieldName}}`}}">{{`{{fieldTitle}}`}}</label>
+          <label for="f_{{fieldName}}">{{fieldTitle}}</label>
           <div v-if="fieldType == 'inputtext'">
-            <input type="text" class="form-control" name="{{`{{fieldName}}`}}" id="f_{{`{{fieldName}}`}}" v-model="fieldValue">
+            <input type="text" class="form-control" name="{{fieldName}}" id="f_{{fieldName}}" v-model="fieldValue">
           </div>
           <div v-if="fieldType == 'textarea'">
-            <textarea name="{{`{{fieldName}}`}}" id="f_{{`{{fieldName}}`}}" v-model="fieldValue"></textarea>
+            <textarea name="{{fieldName}}" id="f_{{fieldName}}" v-model="fieldValue"></textarea>
           </div>
           <div v-if="fieldType == 'select'">
             <select v-model="fieldValue">
-              <option value="{{`{{$value}}`}}" v-repeat="options">{{`{{$key}}`}}</option>
+              <option value="{{$value}}" v-repeat="options">{{$key}}</option>
             </select>
           </div>
         </div>
@@ -24,7 +26,44 @@
       </form>
     </div>
   </div>
-</div>
+
+</script>
+<script type="x-template" id="listTemplate">
+  <div class="blog-header">
+    <h1 class="blog-title">{{formTitle}}</h1>
+    <p class="lead blog-description">{{formDescription}}</p>
+  </div>
+  <div class="row">
+    <div class="col-sm-8 blog-main">
+      <p>
+        <a href="/admin/form/#/{{schemaId}}/update" class="btn btn-primary" id="createEntity">Create new entity</a>
+      </p>
+      <table id="content-list-table" class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>App ID</th>
+            <th></th>
+            <th>Update</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-repeat="items">
+            <td>{{title}}</td>
+            <td>{{app_id}}</td>
+            <td>{{updated_at | dateFormat}}</td>
+            <td><a class="btn btn-default btn-sm" v-on="click: UpdateEntity">Update</a>
+            </td>
+            <td>
+              <button class="btn btn-danger btn-sm" v-on="click: deleteEntity">delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</script>
 <script src="/media/js/vue.superagent.min.js"></script>
 <script src="/media/js/moment.min.js"></script>
 <script src="/media/js/app.js"></script>

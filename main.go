@@ -6,6 +6,8 @@ import (
 )
 
 func init() {
+	beegae.TemplateLeft = "{{{"
+	beegae.TemplateRight = "}}}"
 	beegae.Router("/admin/api/v1/iosapp/:key_name", &controllers.IOSAppController{}, "patch:UpdateEntity;delete:DeleteEntity")
 	beegae.Router("/admin/api/v1/iosapp", &controllers.IOSAppController{})
 	beegae.Router("/admin/iosapp", &controllers.AdminIOSAppController{})
