@@ -16,6 +16,7 @@ casper.test.begin 'test ios app api', 4, (test) ->
       title:"title1"
       webhook_url: "http://xxx.xxx/xxxx"
       content: "foobar"
+      region: "143462"
     })
     headers:
       "Content-Type": "application/json; charset=utf-8"
@@ -31,6 +32,7 @@ casper.test.begin 'test ios app api', 4, (test) ->
       title:"title2"
       webhook_url: "http://xxx.xxx/xxxx"
       content: "moo bar"
+      region: "143462"
     })
     headers:
       "Content-Type": "application/json; charset=utf-8"
