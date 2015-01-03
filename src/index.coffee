@@ -15,17 +15,33 @@ BuildForm = ->
   keyName = hashArr[3]
   schema = schemas[modelName]
   switch crudMethod
-    when "update" then BuildFormUpdate(schema)
+    when "update" then BuildFormUpdate(schema,keyName)
     when "list" then BuildFormList(schema)
 
-BuildFormUpdate = (schema) ->
+BuildFormUpdate = (schema,keyName) ->
   formVue = new Vue(
     el: "#form-container"
     template: "#formTemplate"
     data:
       formTitle: schema.formTitle
       items: schema.schema
+      methods:
+        submitUpdate: (e) ->
+          request = window.superagent
+          request.post(schema.apiEndpoint)
+            .send(@$data.items)
+            .set("Accept", "application/json")
+            .end (error, res) ->
+              items = res.body
+              console.log items
   )
+  if keyName
+    request = window.superagent
+    request.get schema.apiEndpoint+"/"+keyName, (res) ->
+      data = res.body
+      for v in formVue.$data.items
+        v.fieldValue = data[v.fieldName]
+
 
 BuildFormList = (schema) ->
   listVue = new Vue(
@@ -131,32 +147,41 @@ appStores =
   Paraguay: 143513
   Uruguay: 143514
 
+appStoreOptions = []
+for key,value of appStores
+  appStoreOptions.push({text:key,value:value})
+
 iOSAppSchema = [
   {
     fieldTitle: "Application ID"
     fieldName:"app_id"
     fieldType:"inputtext"
+    fieldValue:""
   }
   {
     fieldTitle: "Title"
     fieldName:"title"
     fieldType:"inputtext"
+    fieldValue:""
   }
   {
     fieldTitle: "Webhook URL"
     fieldName:"webhook_url"
     fieldType:"inputtext"
+    fieldValue:""
   }
   {
     fieldTitle: "Description"
     fieldName:"content"
     fieldType:"textarea"
+    fieldValue:""
   }
   {
     fieldTitle:"Region"
     fieldName:"region"
     fieldType:"select"
-    options: appStores
+    options: appStoreOptions
+    fieldValue:""
   }
 ]
 
@@ -164,5 +189,6 @@ schemas =
   iosapp:
     schema:iOSAppSchema
     schemaId: "iosapp"
+    apiEndpoint: "/admin/api/v1/iosapp"
     formTitle:"AppStore App settings"
     formDescription:"When a review is posted to AppStore, notification is send to your slack channel"
