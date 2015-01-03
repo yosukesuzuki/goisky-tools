@@ -53,7 +53,7 @@
             <td>{{title}}</td>
             <td>{{app_id}}</td>
             <td>{{updated_at | dateFormat}}</td>
-            <td><a class="btn btn-default btn-sm" v-on="click: UpdateEntity">Update</a>
+            <td><a class="btn btn-default btn-sm" href="#/iosapp/update/{{app_id}}">Update</a>
             </td>
             <td>
               <button class="btn btn-danger btn-sm" v-on="click: deleteEntity">delete</button>

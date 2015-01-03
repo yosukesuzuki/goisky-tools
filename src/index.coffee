@@ -2,13 +2,17 @@ document.addEventListener "DOMContentLoaded", (event) ->
   console.log "DOM fully loaded and parsed"
   pathName = location.pathname.split("/")[2]
   switch pathName
-    when "form" then BuildForm()
+    when "form"
+      BuildForm()
+      window.onhashchange =BuildForm
   return
+
 
 BuildForm = ->
   hashArr = location.hash.split("/")
   modelName = hashArr[1]
   crudMethod = hashArr[2]
+  keyName = hashArr[3]
   schema = schemas[modelName]
   switch crudMethod
     when "update" then BuildFormUpdate(schema)
