@@ -33,7 +33,7 @@ BuildFormUpdate = (schema,keyName) ->
       items: schema.schema
     methods:
       cancel: (e) ->
-        location.hash = "/"+schema.schemaId+"/list"
+        location.hash = "/"+schema.modelName+"/list"
       submitUpdate: (e) ->
         e.preventDefault()
         request = window.superagent
@@ -44,7 +44,7 @@ BuildFormUpdate = (schema,keyName) ->
             unless error?
               items = res.body
               console.log items
-              location.hash = "/"+schema.schemaId+"/list"
+              location.hash = "/"+schema.modelName+"/list"
   )
   if keyName
     request = window.superagent
@@ -61,7 +61,7 @@ BuildFormList = (schema) ->
     data:
       formTitle: schema.formTitle
       formDescription: schema.formDescription
-      schemaId: schema.schemaId
+      modelName: schema.modelName
       items: []
     methods:
       deleteEntity: (e) ->
@@ -206,7 +206,7 @@ iOSAppSchema = [
 schemas =
   iosapp:
     schema:iOSAppSchema
-    schemaId: "iosapp"
+    modelName: "iosapp"
     apiEndpoint: "/admin/api/v1/iosapp"
     formTitle:"AppStore App settings"
     formDescription:"When a review is posted to AppStore, notification is send to your slack channel"
