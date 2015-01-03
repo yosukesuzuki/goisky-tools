@@ -4,7 +4,7 @@ document.addEventListener "DOMContentLoaded", (event) ->
   switch pathName
     when "form"
       BuildForm()
-      window.onhashchange =BuildForm
+      window.onhashchange = BuildForm
   return
 
 
@@ -18,6 +18,12 @@ BuildForm = ->
     when "update" then BuildFormUpdate(schema,keyName)
     when "list" then BuildFormList(schema)
 
+SetPostData = (items) ->
+  returnObject = {}
+  for v in items
+    returnObject[v.fieldName] = v.fieldValue
+  return returnObject
+
 BuildFormUpdate = (schema,keyName) ->
   formVue = new Vue(
     el: "#form-container"
@@ -25,15 +31,20 @@ BuildFormUpdate = (schema,keyName) ->
     data:
       formTitle: schema.formTitle
       items: schema.schema
-      methods:
-        submitUpdate: (e) ->
-          request = window.superagent
-          request.post(schema.apiEndpoint)
-            .send(@$data.items)
-            .set("Accept", "application/json")
-            .end (error, res) ->
+    methods:
+      cancel: (e) ->
+        location.hash = "/"+schema.schemaId+"/list"
+      submitUpdate: (e) ->
+        e.preventDefault()
+        request = window.superagent
+        request.post(schema.apiEndpoint)
+          .send(SetPostData(@$data.items))
+          .set("Accept", "application/json")
+          .end (error, res) ->
+            unless error?
               items = res.body
               console.log items
+              location.hash = "/"+schema.schemaId+"/list"
   )
   if keyName
     request = window.superagent
@@ -50,13 +61,20 @@ BuildFormList = (schema) ->
     data:
       formTitle: schema.formTitle
       formDescription: schema.formDescription
+      schemaId: schema.schemaId
       items: []
+    methods:
+      deleteEntity: (e) ->
+        if window.confirm('Delete this entity?')
+          keyName = e.targetVM.$data.app_id
+          request = window.superagent
+          request.del schema.apiEndpoint+"/"+keyName, (res) ->
+            items = res.body
   )
   request = window.superagent
-  request.get "/admin/api/v1/iosapp", (res) ->
+  request.get schema.apiEndpoint, (res) ->
     items = res.body
     listVue.$data.items = items.items
-
 
 Vue.filter "dateFormat", (value) ->
   value = value.replace(/T/, " ")
