@@ -70,6 +70,7 @@ BuildFormList = (schema) ->
           request = window.superagent
           request.del schema.apiEndpoint+"/"+keyName, (res) ->
             items = res.body
+            listVue.$data.items.$remove(e.targetVM.$index)
   )
   request = window.superagent
   request.get schema.apiEndpoint, (res) ->
