@@ -7,7 +7,6 @@ document.addEventListener "DOMContentLoaded", (event) ->
       window.onhashchange = BuildForm
   return
 
-
 BuildForm = ->
   hashArr = location.hash.split("/")
   modelName = hashArr[1]
