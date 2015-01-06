@@ -46,12 +46,16 @@ import (
 	"encoding/json"
 	"io"
 	"log"
+	"net/http"
+	"regexp"
 
 	"models"
 
 	// "appengine"
 	"appengine/datastore"
+	"appengine/urlfetch"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/astaxie/beegae"
 )
 
@@ -131,6 +135,40 @@ func (this *IOSAppController) DeleteEntity() {
 	} else {
 		this.Data["json"] = err
 	}
+}
+
+func (this *IOSAppController) GetReview() {
+	client := urlfetch.Client(this.AppEngineCtx)
+	req, err := http.NewRequest("GET", "https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=503424369&pageNumber=0&sortOrdering=4&onlyLatestVersion=false&type=Purple+Software", nil)
+	req.Header.Add("X-Apple-Store-Front", "143462")
+	req.Header.Add("User-Agent", "iTunes/9.2 (Macintosh; U; Mac OS X 10.6)")
+	resp, err := client.Do(req)
+	if err != nil {
+		this.Data["json"] = err
+		return
+	}
+	// path := xmlpath.MustComile("View/VBoxView/View/MatrixView/VBoxView/VBoxView/VBoxView")
+	doc, _ := goquery.NewDocumentFromResponse(resp)
+	i := 0
+	doc.Find("Document View VBoxView View MatrixView VBoxView:nth-child(1) VBoxView VBoxView").Each(func(_ int, s *goquery.Selection) {
+		title := s.Find("HBoxView TextView SetFontStyle b").First().Text()
+		if title != "" {
+			i = i + 1
+			log.Println(i)
+			log.Println(title)
+			reviewIDURL, idExists := s.Find("HBoxView VBoxView GotoURL").First().Attr("url")
+			if idExists {
+				regex_str := "([0-9]+$)"
+				re, err := regexp.Compile(regex_str)
+				if err != nil {
+					panic(err)
+				}
+				reviewID := re.FindString(reviewIDURL)
+				log.Println(reviewID)
+			}
+		}
+
+	})
 }
 
 func (this *IOSAppController) Render() error {

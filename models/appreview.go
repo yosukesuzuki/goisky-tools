@@ -9,13 +9,13 @@ import (
 
 // AppReview is a kind which stores reviews of a app, a entity == a review
 type AppReview struct {
-	AppID    string    `json:"app_id" datastore:"app_id"`
-	ReviewID string    `json:"review_id" datastore:"app_id"`
-	Star     string    `json:"star" datastore:"star"`
-	Title    string    `json:"title" datastore:"title,noindex"`
-	Content  string    `json:"content" datastore:"content,noindex"`
-	Done     bool      `json:"done"`
-	Created  time.Time `json:"created"`
+	AppID     string    `json:"app_id" datastore:"app_id"`
+	ReviewID  string    `json:"review_id" datastore:"app_id"`
+	Star      string    `json:"star" datastore:"star"`
+	Title     string    `json:"title" datastore:"title,noindex"`
+	Content   string    `json:"content" datastore:"content,noindex"`
+	Done      bool      `json:"done"`
+	CreatedAt time.Time `json:"created_at" datastore:"created_at"`
 }
 
 func (ar *AppReview) key(c appengine.Context) *datastore.Key {
@@ -24,8 +24,8 @@ func (ar *AppReview) key(c appengine.Context) *datastore.Key {
 }
 
 // Save puts to datastore
-func (ar *AppReview) Save(c appengine.Context) (*AppReview, error) {
-	ar.Created = time.Now()
+func (ar *AppReview) Create(c appengine.Context) (*AppReview, error) {
+	ar.CreatedAt = time.Now()
 	_, err := datastore.Put(c, ar.key(c), ar)
 	if err != nil {
 		return nil, err
