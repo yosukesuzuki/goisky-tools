@@ -139,9 +139,10 @@ func (this *IOSAppController) DeleteEntity() {
 	}
 }
 
-func (this *IOSAppController) GetReview() {
+func (this *IOSAppController) GetAppReview() {
+	appID := this.Ctx.Input.Param(":app_id")
 	client := urlfetch.Client(this.AppEngineCtx)
-	req, err := http.NewRequest("GET", "https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=503424369&pageNumber=0&sortOrdering=4&onlyLatestVersion=false&type=Purple+Software", nil)
+	req, err := http.NewRequest("GET", "https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&sortOrdering=4&onlyLatestVersion=false&type=Purple+Software&id="+appID, nil)
 	req.Header.Add("X-Apple-Store-Front", "143462")
 	req.Header.Add("User-Agent", "iTunes/9.2 (Macintosh; U; Mac OS X 10.6)")
 	resp, err := client.Do(req)
@@ -163,6 +164,7 @@ func (this *IOSAppController) GetReview() {
 					panic(err)
 				}
 				reviewID := re.FindString(reviewIDURL)
+				var content string
 				if len(reviewID) > 4 {
 					num := 0
 					log.Println(title)
@@ -170,14 +172,39 @@ func (this *IOSAppController) GetReview() {
 					s.Find("TextView SetFontStyle").Each(func(_ int, sc *goquery.Selection) {
 						num = num + 1
 						if num == 4 {
-							log.Println(sc.Text())
+							content = sc.Text()
 						}
 					})
+					var appreview models.AppReview
+					appreview.AppID = appID
+					appreview.ReviewID = reviewID
+					appreview.Title = title
+					appreview.Content = content
+					_, err = appreview.Create(this.AppEngineCtx)
+					if err != nil {
+						this.Data["json"] = err
+						return
+					}
 				}
+
 			}
 		}
 
 	})
+}
+
+func (this *IOSAppController) GetReviews() {
+	iosapps := []models.IOSApp{}
+	_, err := datastore.NewQuery("IOSApp").Order("-updated_at").GetAll(this.AppEngineCtx, &iosapps)
+	if err != nil {
+		this.Data["json"] = err
+		return
+	}
+	for i := 0; i < len(iosapps); i++ {
+		log.Println(iosapps[i].AppID)
+	}
+	listDataSet := map[string]interface{}{"items": iosapps}
+	this.Data["json"] = listDataSet
 }
 
 func (this *IOSAppController) Render() error {

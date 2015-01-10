@@ -10,7 +10,7 @@ import (
 // AppReview is a kind which stores reviews of a app, a entity == a review
 type AppReview struct {
 	AppID     string    `json:"app_id" datastore:"app_id"`
-	ReviewID  string    `json:"review_id" datastore:"app_id"`
+	ReviewID  string    `json:"review_id" datastore:"review_id"`
 	Star      string    `json:"star" datastore:"star"`
 	Title     string    `json:"title" datastore:"title,noindex"`
 	Content   string    `json:"content" datastore:"content,noindex"`
