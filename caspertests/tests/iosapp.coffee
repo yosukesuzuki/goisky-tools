@@ -3,7 +3,7 @@ system = require 'system'
 # load global settings
 settings = require '../helpers/settings'
 
-casper.test.begin 'test ios app api', 4, (test) ->
+casper.test.begin 'test ios app api', 7, (test) ->
 
   casper.thenOpen settings.baseURL() + "/admin/api/v1/iosapp", ->
     test.assertHttpStatus 200
@@ -49,6 +49,28 @@ casper.test.begin 'test ios app api', 4, (test) ->
     @echo "DELETE request has been sent."
     test.assertHttpStatus 200
     @echo @getPageContent()
+
+  casper.thenOpen settings.baseURL() + "/admin/api/v1/iosapp",
+    method: "post"
+    data: JSON.stringify({
+      app_id:"503424369"
+      title:"日本経済新聞 紙面ビューアー"
+      webhook_url: "http://xxx.xxx/xxxx"
+      content: "moo bar"
+      region: "143462"
+    })
+    headers:
+      "Content-Type": "application/json; charset=utf-8"
+  , ->
+    @echo "POST request has been sent."
+    test.assertHttpStatus 200
+    @echo @getPageContent()
+
+  casper.thenOpen settings.baseURL() + "/admin/task/iosapp/getreviews", ->
+    test.assertHttpStatus 200
+
+  casper.thenOpen settings.baseURL() + "/admin/task/iosapp/getappreview/503424369", ->
+    test.assertHttpStatus 200
 
   # casper.thenOpen settings.baseURL() + "/admin/api/v1/iosapp", ->
   #   test.assertHttpStatus 200
