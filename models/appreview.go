@@ -1,6 +1,7 @@
 package models
 
 import (
+	"log"
 	"time"
 
 	"appengine"
@@ -24,8 +25,14 @@ func (ar *AppReview) key(c appengine.Context) *datastore.Key {
 
 // Save puts to datastore
 func (ar *AppReview) Create(c appengine.Context) (*AppReview, error) {
+	var appreview AppReview
+	err := datastore.Get(c, ar.key(c), &appreview)
+	if err == nil {
+		log.Println("already registered")
+		return &appreview, nil
+	}
 	ar.CreatedAt = time.Now()
-	_, err := datastore.Put(c, ar.key(c), ar)
+	_, err = datastore.Put(c, ar.key(c), ar)
 	if err != nil {
 		return nil, err
 	}

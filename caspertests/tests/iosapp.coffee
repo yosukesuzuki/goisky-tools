@@ -69,7 +69,7 @@ casper.test.begin 'test ios app api', 7, (test) ->
   casper.thenOpen settings.baseURL() + "/admin/task/iosapp/getreviews", ->
     test.assertHttpStatus 200
 
-  casper.thenOpen settings.baseURL() + "/admin/task/iosapp/getappreview/503424369", ->
+  casper.thenOpen settings.baseURL() + "/admin/task/iosapp/getappreview/579581125", ->
     test.assertHttpStatus 200
 
   # casper.thenOpen settings.baseURL() + "/admin/api/v1/iosapp", ->

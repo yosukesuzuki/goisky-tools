@@ -44,16 +44,13 @@ package controllers
 
 import (
 	"encoding/json"
-	//	"encoding/xml"
 	"io"
-	//	"io/ioutil"
 	"log"
 	"net/http"
 	"regexp"
 
 	"models"
 
-	// "appengine"
 	"appengine/datastore"
 	"appengine/urlfetch"
 
@@ -72,9 +69,6 @@ func (this *IOSAppController) Get() {
 		this.Data["json"] = err
 		return
 	}
-	// for i := 0; i < len(iosapps); i++ {
-	// 	iosapps[i].Id = ks[i].IntID()
-	// }
 	listDataSet := map[string]interface{}{"items": iosapps}
 	this.Data["json"] = listDataSet
 }
@@ -110,14 +104,14 @@ func (this *IOSAppController) UpdateEntity() {
 	keyName := this.Ctx.Input.Param(":key_name")
 	key := datastore.NewKey(this.AppEngineCtx, "IOSApp", keyName, 0, nil)
 	var iosapp models.IOSApp
-	getErr := datastore.Get(this.AppEngineCtx, key, &iosapp)
-	if getErr != nil {
-		this.Data["json"] = getErr
+	err := datastore.Get(this.AppEngineCtx, key, &iosapp)
+	if err != nil {
+		this.Data["json"] = err
 		return
 	}
-	decodeErr := json.NewDecoder(this.Ctx.Input.Request.Body).Decode(&iosapp)
-	if decodeErr != nil {
-		this.Data["json"] = decodeErr
+	err = json.NewDecoder(this.Ctx.Input.Request.Body).Decode(&iosapp)
+	if err != nil {
+		this.Data["json"] = err
 		return
 	}
 	i, err := iosapp.Update(this.AppEngineCtx)
