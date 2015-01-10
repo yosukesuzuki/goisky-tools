@@ -14,7 +14,6 @@ type AppReview struct {
 	Star      string    `json:"star" datastore:"star"`
 	Title     string    `json:"title" datastore:"title,noindex"`
 	Content   string    `json:"content" datastore:"content,noindex"`
-	Done      bool      `json:"done"`
 	CreatedAt time.Time `json:"created_at" datastore:"created_at"`
 }
 

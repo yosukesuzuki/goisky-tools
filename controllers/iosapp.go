@@ -44,7 +44,9 @@ package controllers
 
 import (
 	"encoding/json"
+	//	"encoding/xml"
 	"io"
+	//	"io/ioutil"
 	"log"
 	"net/http"
 	"regexp"
@@ -147,24 +149,31 @@ func (this *IOSAppController) GetReview() {
 		this.Data["json"] = err
 		return
 	}
-	// path := xmlpath.MustComile("View/VBoxView/View/MatrixView/VBoxView/VBoxView/VBoxView")
+	defer resp.Body.Close()
 	doc, _ := goquery.NewDocumentFromResponse(resp)
-	i := 0
-	doc.Find("Document View VBoxView View MatrixView VBoxView:nth-child(1) VBoxView VBoxView").Each(func(_ int, s *goquery.Selection) {
-		title := s.Find("HBoxView TextView SetFontStyle b").First().Text()
+	doc.Find("Document View VBoxView View MatrixView VBoxView:nth-child(1) VBoxView VBoxView VBoxView").Each(func(_ int, s *goquery.Selection) {
+		title_node := s.Find("HBoxView>TextView>SetFontStyle>b").First()
+		title := title_node.Text()
 		if title != "" {
-			i = i + 1
-			log.Println(i)
-			log.Println(title)
 			reviewIDURL, idExists := s.Find("HBoxView VBoxView GotoURL").First().Attr("url")
 			if idExists {
-				regex_str := "([0-9]+$)"
+				regex_str := "([0-9]{4,}$)"
 				re, err := regexp.Compile(regex_str)
 				if err != nil {
 					panic(err)
 				}
 				reviewID := re.FindString(reviewIDURL)
-				log.Println(reviewID)
+				if len(reviewID) > 4 {
+					num := 0
+					log.Println(title)
+					log.Println(reviewID)
+					s.Find("TextView SetFontStyle").Each(func(_ int, sc *goquery.Selection) {
+						num = num + 1
+						if num == 4 {
+							log.Println(sc.Text())
+						}
+					})
+				}
 			}
 		}
 
