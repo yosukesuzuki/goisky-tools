@@ -192,6 +192,12 @@ iOSAppSchema = [
     fieldValue:""
   }
   {
+    fieldTitle: "Icon URL"
+    fieldName:"icon_url"
+    fieldType:"inputtext"
+    fieldValue:""
+  }
+  {
     fieldTitle: "Description"
     fieldName:"content"
     fieldType:"textarea"
