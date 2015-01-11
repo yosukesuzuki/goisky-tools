@@ -3,7 +3,7 @@ system = require 'system'
 # load global settings
 settings = require '../helpers/settings'
 
-casper.test.begin 'test ios app api', 7, (test) ->
+casper.test.begin 'test ios app api', 8, (test) ->
 
   casper.thenOpen settings.baseURL() + "/admin/api/v1/iosapp", ->
     test.assertHttpStatus 200
@@ -41,6 +41,15 @@ casper.test.begin 'test ios app api', 7, (test) ->
     test.assertHttpStatus 200
     @echo @getPageContent()
 
+  casper.thenOpen settings.baseURL() + "/admin/api/v1/iosapp/app_id1",
+    method: "delete"
+    headers:
+      "Content-Type": "application/json; charset=utf-8"
+  , ->
+    @echo "DELETE request has been sent."
+    test.assertHttpStatus 200
+    @echo @getPageContent()
+
   casper.thenOpen settings.baseURL() + "/admin/api/v1/iosapp/app_id2",
     method: "delete"
     headers:
@@ -55,7 +64,7 @@ casper.test.begin 'test ios app api', 7, (test) ->
     data: JSON.stringify({
       app_id:"579581125"
       title:"smart news"
-      webhook_url: "http://xxx.xxx/xxxx"
+      webhook_url: "https://hooks.slack.com/services/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"
       content: "moo bar"
       region: "143462"
     })

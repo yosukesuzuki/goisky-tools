@@ -1,12 +1,16 @@
 package models
 
 import (
+	"bytes"
+	"encoding/json"
 	"log"
+	"net/http"
 	"time"
 
 	"appengine"
 	"appengine/datastore"
 	"appengine/delay"
+	"appengine/urlfetch"
 )
 
 // AppReview is a kind which stores reviews of a app, a entity == a review
@@ -32,7 +36,22 @@ func NotifyReviewToSlack(c appengine.Context, ar *AppReview) {
 		c.Errorf("%v", err)
 		return
 	}
+	client := urlfetch.Client(c)
+	payload := map[string]string{"text": ar.Content}
+	payloadJSON, err := json.Marshal(payload)
+	if err != nil {
+		c.Errorf("%v", err)
+		return
+	}
+	b := bytes.NewBuffer(payloadJSON)
+	req, err := http.NewRequest("POST", iosapp.WebhookURL, b)
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := client.Do(req)
+	defer resp.Body.Close()
+	log.Println(resp.Body)
 }
+
+var notifyToSlackAsync = delay.Func("put", NotifyReviewToSlack)
 
 // Save puts to datastore
 func (ar *AppReview) Create(c appengine.Context) (*AppReview, error) {
@@ -47,7 +66,6 @@ func (ar *AppReview) Create(c appengine.Context) (*AppReview, error) {
 	if err != nil {
 		return nil, err
 	}
-	var notifyToSlackAsync = delay.Func("put", NotifyReviewToSlack)
 	notifyToSlackAsync.Call(c, ar)
 	return ar, nil
 }
