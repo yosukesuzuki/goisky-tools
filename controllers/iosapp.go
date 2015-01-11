@@ -64,7 +64,7 @@ type IOSAppController struct {
 
 func (this *IOSAppController) Get() {
 	iosapps := []models.IOSApp{}
-	_, err := datastore.NewQuery("IOSApp").Order("-updated_at").GetAll(this.AppEngineCtx, &iosapps)
+	_, err := datastore.NewQuery("IOSApp").Order("-UpdatedAt").GetAll(this.AppEngineCtx, &iosapps)
 	if err != nil {
 		this.Data["json"] = err
 		return
