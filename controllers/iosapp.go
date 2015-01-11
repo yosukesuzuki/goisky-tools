@@ -199,6 +199,7 @@ func (this *IOSAppController) GetReviews() {
 	}
 	listDataSet := map[string]interface{}{"items": iosapps}
 	this.Data["json"] = listDataSet
+	// TODO set taskque to get app reviews
 }
 
 func (this *IOSAppController) Render() error {

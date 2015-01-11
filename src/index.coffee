@@ -35,6 +35,8 @@ BuildFormUpdate = (schema,keyName) ->
         location.hash = "/"+schema.modelName+"/list"
       submitUpdate: (e) ->
         e.preventDefault()
+        this.$event.toElement.innerHTML = "..loading"
+        this.$event.toElement.setAttribute("disabled","disabled")
         request = window.superagent
         request.post(schema.apiEndpoint)
           .send(SetPostData(@$data.items))
@@ -44,6 +46,7 @@ BuildFormUpdate = (schema,keyName) ->
               items = res.body
               console.log items
               location.hash = "/"+schema.modelName+"/list"
+              location.reload()
   )
   if keyName
     request = window.superagent
