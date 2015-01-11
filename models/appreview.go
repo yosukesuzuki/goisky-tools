@@ -6,21 +6,32 @@ import (
 
 	"appengine"
 	"appengine/datastore"
+	"appengine/delay"
 )
 
 // AppReview is a kind which stores reviews of a app, a entity == a review
 type AppReview struct {
-	AppID     string    `json:"app_id" datastore:"app_id"`
-	ReviewID  string    `json:"review_id" datastore:"review_id"`
-	Star      string    `json:"star" datastore:"star"`
-	Title     string    `json:"title" datastore:"title,noindex"`
-	Content   string    `json:"content" datastore:"content,noindex"`
-	CreatedAt time.Time `json:"created_at" datastore:"created_at"`
+	AppID     string    `json:"app_id" datastore:"AppID"`
+	ReviewID  string    `json:"review_id" datastore:"ReviewID"`
+	Star      string    `json:"star" datastore:"Star"`
+	Title     string    `json:"title" datastore:"Tite,noindex"`
+	Content   string    `json:"content" datastore:"Content,noindex"`
+	CreatedAt time.Time `json:"created_at" datastore:"CreatedAt"`
 }
 
 func (ar *AppReview) key(c appengine.Context) *datastore.Key {
 	keyName := ar.AppID + "_" + ar.ReviewID
 	return datastore.NewKey(c, "AppReview", keyName, 0, nil)
+}
+
+func NotifyReviewToSlack(c appengine.Context, ar *AppReview) {
+	var iosapp IOSApp
+	key := datastore.NewKey(c, "IOSApp", ar.AppID, 0, nil)
+	err := datastore.Get(c, key, &iosapp)
+	if err != nil {
+		c.Errorf("%v", err)
+		return
+	}
 }
 
 // Save puts to datastore
@@ -36,5 +47,7 @@ func (ar *AppReview) Create(c appengine.Context) (*AppReview, error) {
 	if err != nil {
 		return nil, err
 	}
+	var notifyToSlackAsync = delay.Func("put", NotifyReviewToSlack)
+	notifyToSlackAsync.Call(c, ar)
 	return ar, nil
 }
