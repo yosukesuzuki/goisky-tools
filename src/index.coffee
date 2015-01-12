@@ -2,7 +2,7 @@ document.addEventListener "DOMContentLoaded", (event) ->
   console.log "DOM fully loaded and parsed"
   pathName = location.pathname.split("/")[2]
   switch pathName
-    when ""
+    when "",undefined
       BuildAppList()
     when "form"
       BuildForm()
