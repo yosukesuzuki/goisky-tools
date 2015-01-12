@@ -52,6 +52,7 @@ import (
 	"models"
 
 	"appengine/datastore"
+	"appengine/taskqueue"
 	"appengine/urlfetch"
 
 	"github.com/PuerkitoBio/goquery"
@@ -189,13 +190,18 @@ func (this *IOSAppController) GetAppReview() {
 
 func (this *IOSAppController) GetReviews() {
 	iosapps := []models.IOSApp{}
-	_, err := datastore.NewQuery("IOSApp").Order("-updated_at").GetAll(this.AppEngineCtx, &iosapps)
+	_, err := datastore.NewQuery("IOSApp").Order("-UpdatedAt").GetAll(this.AppEngineCtx, &iosapps)
 	if err != nil {
 		this.Data["json"] = err
 		return
 	}
 	for i := 0; i < len(iosapps); i++ {
 		log.Println(iosapps[i].AppID)
+		t := taskqueue.NewPOSTTask("/admin/task/iosapp/getappreview/"+iosapps[i].AppID, nil)
+		if _, err := taskqueue.Add(this.AppEngineCtx, t, ""); err != nil {
+			this.Data["json"] = err
+			return
+		}
 	}
 	listDataSet := map[string]interface{}{"items": iosapps}
 	this.Data["json"] = listDataSet
