@@ -91,16 +91,17 @@ BuildFormList = (schema) ->
   request.get schema.apiEndpoint, (res) ->
     items = res.body
     listVue.$data.items = items.items
-  request.get "/admin/blobstoreimage/uploadurl", (res) ->
-    blobDropzone = new Dropzone("div#imagetarget",
-      url: res.body.uploadurl
-      uploadMultiple: false
-    )
-    blobDropzone.on "complete", (file) ->
-      request.get "/admin/blobstoreimage/handler",(res) ->
-        request.get schema.apiEndpoint, (res) ->
-          items = res.body
-          listVue.$data.items = items.items
+  if document.querySelector("#imagetarget")
+    request.get "/admin/blobstoreimage/uploadurl", (res) ->
+      blobDropzone = new Dropzone("div#imagetarget",
+        url: res.body.uploadurl
+        uploadMultiple: false
+      )
+      blobDropzone.on "complete", (file) ->
+        request.get "/admin/blobstoreimage/handler",(res) ->
+          request.get schema.apiEndpoint, (res) ->
+            items = res.body
+            listVue.$data.items = items.items
 
 Vue.filter "dateFormat", (value) ->
   value = value.replace(/T/, " ")
