@@ -1,10 +1,14 @@
 slacktools
 ==========
 
-slack tools
+# tools
+## AppStore review notification
+
 
 # setup
 ## install go
+for mac user
+
 ```
 $ brew install go
 ```
@@ -12,17 +16,28 @@ $ brew install go
 see this document
 https://cloud.google.com/sdk/#Quick_Start
 
-## get libraries
+## get go libraries
 ```
 $ go get github.com/astaxie/beegae
 ```
 
 ## setup gulp for coffee script compile
-see this document(Japanese)
+if you want to customize frontend, see this document(Japanese)
 http://qiita.com/mizchi/items/10a8e2b3e6c2c3235e61
 
+## deploy
+```
+$ goapp deploy
+```
 
 # libraries
+## go
 - [beegae](https://github.com/astaxie/beegae)
+
+## javascript
 - [superagent](https://github.com/visionmedia/superagent)
+- [dropzone](http://www.dropzonejs.com/)
 - [Bootstrap without jQuery](https://github.com/tagawa/bootstrap-without-jquery)
+
+## css
+- [bootswatch](http://bootswatch.com/)

@@ -79,6 +79,11 @@ BuildFormList = (schema) ->
       modelName: schema.modelName
       items: []
     methods:
+      executeTask: (e) ->
+        request = window.superagent
+        request.get schema.taskEndpoint, (res) ->
+          console.log "done"
+          
       deleteEntity: (e) ->
         if window.confirm('Delete this entity?')
           keyName = e.targetVM.$data.app_id
@@ -261,13 +266,12 @@ schemas =
     schema:iOSAppSchema
     modelName: "iosapp"
     apiEndpoint: "/admin/api/v1/iosapp"
-    allowCreate: true
+    taskEndpoint: "/admin/task/iosapp/getreviews"
     formTitle:"AppStore App settings"
     formDescription:"When a review is posted to AppStore, notification is send to your slack channel"
   blobstoreimage:
     schema:blobStoreImageSchema
     modelName: "blobstoreimage"
     apiEndpoint: "/admin/api/v1/blobstoreimage"
-    allowCreate: false
     formTitle:"Blob Store Image Management"
     formDescription:"Upload Image to BlobStore and get resizable image by parameter"

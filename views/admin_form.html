@@ -56,9 +56,14 @@
   </div>
   <div class="row">
     <div class="col-sm-8 blog-main">
-      <p>
+      <div class="row" style="margin-bottom:20px;">
+        <div class="col-sm-3">
         <a href="/admin/form/#/{{modelName}}/update" class="btn btn-primary" id="createEntity">Create new entity</a>
-      </p>
+        </div>
+        <div class="col-sm-3" v-if="modelName == 'iosapp'">
+        <span class="btn btn-warning" id="executeJob" v-on="click: executeTask">Execute task</a>
+        </div>
+      </div>
       <table id="content-list-table" class="table table-bordered table-hover">
         <thead>
           <tr>
