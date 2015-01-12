@@ -8,8 +8,7 @@ import (
 func init() {
 	beegae.TemplateLeft = "{{{"
 	beegae.TemplateRight = "}}}"
-	//beegae.Router("/admin/blobstoreimage/handler", &controllers.BlobStoreImageController{}, "*:Handler")
-	beegae.Router("/admin/blobstoreimage/handler", &controllers.BlobStoreHandleController{}, "*:Handler")
+	beegae.Router("/admin/blobstoreimage/handler", &controllers.BlobStoreImageController{}, "*:Handler")
 	beegae.Router("/admin/blobstoreimage/uploadurl", &controllers.BlobStoreImageController{}, "*:UploadURL")
 	beegae.Router("/admin/task/iosapp/getappreview/:app_id", &controllers.IOSAppController{}, "*:GetAppReview")
 	beegae.Router("/admin/task/iosapp/getreviews", &controllers.IOSAppController{}, "*:GetReviews")
