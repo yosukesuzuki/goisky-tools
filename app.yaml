@@ -28,12 +28,15 @@ handlers:
 skip_files: |
   ^(.*/)?(
   (casptertests/.*)|
+  (node_modules/.*)|
+  (testdata/.*)|
   (app\.yaml)|
   (app\.yml)|
   (index\.yaml)|
   (index\.yml)|
   (#.*#)|
   (.*~)|
+  (.*DS_Store)|
   (\.gitignore)|
   (README\.md)|
   (LICENSE)|
