@@ -15,6 +15,7 @@ import (
 
 // AppReview is a kind which stores reviews of a app, a entity == a review
 type AppReview struct {
+	KeyName   string    `json:"key_name" datastore:"KeyName"`
 	AppID     string    `json:"app_id" datastore:"AppID"`
 	ReviewID  string    `json:"review_id" datastore:"ReviewID"`
 	Star      string    `json:"star" datastore:"Star"`
@@ -24,8 +25,7 @@ type AppReview struct {
 }
 
 func (ar *AppReview) key(c appengine.Context) *datastore.Key {
-	keyName := ar.AppID + "_" + ar.ReviewID
-	return datastore.NewKey(c, "AppReview", keyName, 0, nil)
+	return datastore.NewKey(c, "AppReview", ar.KeyName, 0, nil)
 }
 
 func NotifyReviewToSlack(c appengine.Context, ar *AppReview) {
@@ -56,6 +56,7 @@ var notifyToSlackAsync = delay.Func("put", NotifyReviewToSlack)
 // Save puts to datastore
 func (ar *AppReview) Create(c appengine.Context) (*AppReview, error) {
 	var appreview AppReview
+	ar.KeyName = ar.AppID + "_" + ar.ReviewID
 	err := datastore.Get(c, ar.key(c), &appreview)
 	if err == nil {
 		log.Println("already registered")

@@ -2,10 +2,23 @@ document.addEventListener "DOMContentLoaded", (event) ->
   console.log "DOM fully loaded and parsed"
   pathName = location.pathname.split("/")[2]
   switch pathName
+    when ""
+      BuildAppList()
     when "form"
       BuildForm()
       window.onhashchange = BuildForm
   return
+
+BuildAppList =->
+  items = []
+  for key,value of schemas
+    items.push value
+  listVue = new Vue(
+    el: "#form-container"
+    template: "#appList"
+    data:
+      items: items
+  )
 
 BuildForm = ->
   hashArr = location.hash.split("/")
@@ -78,6 +91,16 @@ BuildFormList = (schema) ->
   request.get schema.apiEndpoint, (res) ->
     items = res.body
     listVue.$data.items = items.items
+  request.get "/admin/blobstoreimage/uploadurl", (res) ->
+    blobDropzone = new Dropzone("div#imagetarget",
+      url: res.body.uploadurl
+      uploadMultiple: false
+    )
+    blobDropzone.on "complete", (file) ->
+      request.get "/admin/blobstoreimage/handler",(res) ->
+        request.get schema.apiEndpoint, (res) ->
+          items = res.body
+          listVue.$data.items = items.items
 
 Vue.filter "dateFormat", (value) ->
   value = value.replace(/T/, " ")
@@ -212,10 +235,38 @@ iOSAppSchema = [
   }
 ]
 
+blobStoreImageSchema = [
+  {
+    fieldTitle: "Title"
+    fieldName:"title"
+    fieldType:"inputtext"
+    fieldValue:""
+  }
+  {
+    fieldTitle: "Note"
+    fieldName:"note"
+    fieldType:"inputtext"
+    fieldValue:""
+  }
+  {
+    fieldTitle: "Image URL"
+    fieldName:"image_url"
+    fieldType:"inputtext"
+    fieldValue:""
+  }
+]
 schemas =
   iosapp:
     schema:iOSAppSchema
     modelName: "iosapp"
     apiEndpoint: "/admin/api/v1/iosapp"
+    allowCreate: true
     formTitle:"AppStore App settings"
     formDescription:"When a review is posted to AppStore, notification is send to your slack channel"
+  blobstoreimage:
+    schema:blobStoreImageSchema
+    modelName: "blobstoreimage"
+    apiEndpoint: "/admin/api/v1/blobstoreimage"
+    allowCreate: false
+    formTitle:"Blob Store Image Management"
+    formDescription:"Upload Image to BlobStore and get resizable image by parameter"

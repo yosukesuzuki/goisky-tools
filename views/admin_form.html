@@ -1,5 +1,23 @@
 <div class="container" id="form-container">
 </div>
+<script type="x-template" id="appList">
+  <div class="blog-header">
+    <h1 class="blog-title">Slack Tools</h1>
+    <p class="lead blog-description">Slack Collaboration Tools</p>
+  </div>
+  <div class="row">
+    <div class="col-sm-8 blog-main" id="app-list">
+      <div class="blog-post" v-repeat="items">
+        <h2 class="blog-post-title">{{formTitle}}</h2>
+        <p>{{formDescription}}</p>
+        <a type="button" href="/admin/form/#/{{modelName}}/list" class="btn btn-default btn-lg btn-block">
+            <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+            go setting
+        </a>
+      </div>
+    </div>
+  </div>
+</script>
 <script type="x-template" id="formTemplate">
   <div class="blog-header">
     <h1 class="blog-title">{{formTitle}}</h1>
@@ -31,6 +49,11 @@
     <h1 class="blog-title">{{formTitle}}</h1>
     <p class="lead blog-description">{{formDescription}}</p>
   </div>
+  <div v-if="modelName == 'blobstoreimage'">
+      <h3>drop image files</h3>
+      <div id="imagetarget" v-on="drop: uploadImage" draggable="true" style="width:320px;border:3px dotted;text-align:center;padding:60px 0;margin-bottom:30px;">
+      </div>
+  </div>
   <div class="row">
     <div class="col-sm-8 blog-main">
       <p>
@@ -40,7 +63,6 @@
         <thead>
           <tr>
             <th>Title</th>
-            <th>App ID</th>
             <th></th>
             <th>Update</th>
             <th>Delete</th>
@@ -49,9 +71,8 @@
         <tbody>
           <tr v-repeat="items">
             <td>{{title}}</td>
-            <td>{{app_id}}</td>
             <td>{{updated_at | dateFormat}}</td>
-            <td><a class="btn btn-default btn-sm" href="#/iosapp/update/{{app_id}}">update</a>
+            <td><a class="btn btn-default btn-sm" href="#/{{modelName}}/update/{{key_name}}">update</a>
             </td>
             <td>
               <button class="btn btn-danger btn-sm" v-on="click: deleteEntity">delete</button>
@@ -64,4 +85,5 @@
 </script>
 <script src="/media/js/vue.superagent.min.js"></script>
 <script src="/media/js/moment.min.js"></script>
+<script src="/media/js/dropzone.min.js"></script>
 <script src="/media/js/app.js"></script>

@@ -16,16 +16,7 @@ type AdminController struct {
 
 func (this *AdminController) Get() {
 	this.Layout = "layout.html"
-	this.TplNames = "admin_index.html"
-}
-
-type AdminIOSAppController struct {
-	beegae.Controller
-}
-
-func (this *AdminIOSAppController) Get() {
-	this.Layout = "layout.html"
-	this.TplNames = "admin_iosapp.html"
+	this.TplNames = "admin_form.html"
 }
 
 type AdminFormController struct {
