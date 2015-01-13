@@ -153,6 +153,11 @@ func (this *IOSAppController) GetAppReview() {
 		return
 	}
 	defer resp.Body.Close()
+	regex_str := "([0-9]{4,}$)"
+	re, err := regexp.Compile(regex_str)
+	if err != nil {
+		panic(err)
+	}
 	doc, _ := goquery.NewDocumentFromResponse(resp)
 	doc.Find("Document View VBoxView View MatrixView VBoxView:nth-child(1) VBoxView VBoxView VBoxView").Each(func(_ int, s *goquery.Selection) {
 		title_node := s.Find("HBoxView>TextView>SetFontStyle>b").First()
@@ -160,11 +165,7 @@ func (this *IOSAppController) GetAppReview() {
 		if title != "" {
 			reviewIDURL, idExists := s.Find("HBoxView VBoxView GotoURL").First().Attr("url")
 			if idExists {
-				regex_str := "([0-9]{4,}$)"
-				re, err := regexp.Compile(regex_str)
-				if err != nil {
-					panic(err)
-				}
+
 				reviewID := re.FindString(reviewIDURL)
 				var content string
 				if len(reviewID) > 4 {
