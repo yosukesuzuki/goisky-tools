@@ -1,0 +1,4 @@
+cron:
+- description: task for getting app reviews 
+  url: /admin/task/iosapp/getreviews
+  schedule: every 1 hours
