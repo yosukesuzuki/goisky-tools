@@ -135,10 +135,17 @@ func (this *IOSAppController) DeleteEntity() {
 }
 
 func (this *IOSAppController) GetAppReview() {
-	appID := this.Ctx.Input.Param(":app_id")
+	keyName := this.Ctx.Input.Param(":key_name")
+	key := datastore.NewKey(this.AppEngineCtx, "IOSApp", keyName, 0, nil)
+	var iosapp models.IOSApp
+	err := datastore.Get(this.AppEngineCtx, key, &iosapp)
+	if err != nil {
+		this.Data["json"] = err
+		return
+	}
 	client := urlfetch.Client(this.AppEngineCtx)
-	req, err := http.NewRequest("GET", "https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&sortOrdering=4&onlyLatestVersion=false&type=Purple+Software&id="+appID, nil)
-	req.Header.Add("X-Apple-Store-Front", "143462")
+	req, err := http.NewRequest("GET", "https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&sortOrdering=4&onlyLatestVersion=false&type=Purple+Software&id="+keyName, nil)
+	req.Header.Add("X-Apple-Store-Front", iosapp.Region)
 	req.Header.Add("User-Agent", "iTunes/9.2 (Macintosh; U; Mac OS X 10.6)")
 	resp, err := client.Do(req)
 	if err != nil {
@@ -171,7 +178,7 @@ func (this *IOSAppController) GetAppReview() {
 						}
 					})
 					var appreview models.AppReview
-					appreview.AppID = appID
+					appreview.AppID = keyName
 					appreview.ReviewID = reviewID
 					appreview.Title = title
 					appreview.Content = content
