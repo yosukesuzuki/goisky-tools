@@ -1,8 +1,12 @@
 slacktools
 ==========
 
+# version
+0.1
+
 # tools
-## AppStore review notification
+- AppStore review notification
+- Blobstore image uploader(not working yet)
 
 
 # setup
