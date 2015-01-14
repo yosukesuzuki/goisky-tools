@@ -21,6 +21,7 @@ type AppReview struct {
 	Star      string    `json:"star" datastore:"Star"`
 	Title     string    `json:"title" datastore:"Tite,noindex"`
 	Content   string    `json:"content" datastore:"Content,noindex"`
+	Version   string    `json:"version" datastore:"Version,noindex"`
 	CreatedAt time.Time `json:"created_at" datastore:"CreatedAt"`
 }
 
@@ -41,7 +42,7 @@ func NotifyReviewToSlack(c appengine.Context, ar *AppReview) {
 	if iosapp.IconURL != "" {
 		iconURL = iosapp.IconURL
 	}
-	text := "[" + iosapp.Title + "]\n" + ar.Title + ":\n" + ar.Content
+	text := "[" + iosapp.Title + "]\n" + ar.Title + ":\n" + ar.Content + "\n" + ar.Version
 	payload := map[string]string{"text": text, "username": "slacktools", "icon_url": iconURL}
 	payloadJSON, err := json.Marshal(payload)
 	if err != nil {
