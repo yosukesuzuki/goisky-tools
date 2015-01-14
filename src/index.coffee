@@ -43,6 +43,13 @@ BuildFormUpdate = (schema,keyName) ->
     data:
       formTitle: schema.formTitle
       items: schema.schema
+    created: () ->
+      if keyName
+        request = window.superagent
+        request.get schema.apiEndpoint+"/"+keyName, (res) ->
+          data = res.body
+          for v in formVue.$data.items
+            v.fieldValue = data[v.fieldName]
     methods:
       cancel: (e) ->
         location.hash = "/"+schema.modelName+"/list"
@@ -61,13 +68,6 @@ BuildFormUpdate = (schema,keyName) ->
               location.hash = "/"+schema.modelName+"/list"
               location.reload()
   )
-  if keyName
-    request = window.superagent
-    request.get schema.apiEndpoint+"/"+keyName, (res) ->
-      data = res.body
-      for v in formVue.$data.items
-        v.fieldValue = data[v.fieldName]
-
 
 BuildFormList = (schema) ->
   listVue = new Vue(

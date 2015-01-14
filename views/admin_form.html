@@ -77,7 +77,7 @@
           <tr v-repeat="items">
             <td>
             {{title}}
-            <img src="{{image_url}}=s57-c" width=57 v-if="modelName =='blobstoreimage'">
+            <img v-attr="src:image_url+'=s57-c'" width=57 v-if="modelName =='blobstoreimage'">
             </td>
             <td>{{updated_at | dateFormat}}</td>
             <td><a class="btn btn-default btn-sm" href="#/{{modelName}}/update/{{key_name}}">update</a>
