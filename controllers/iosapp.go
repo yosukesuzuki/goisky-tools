@@ -159,15 +159,15 @@ func (this *IOSAppController) GetAppReview() {
 	if err != nil {
 		panic(err)
 	}
-	regex_str_user_profile := "(userProfileId=[0-9]{4,}$)"
-	re_user_profile, err := regexp.Compile(regex_str_user_profile)
-	if err != nil {
-		panic(err)
-	}
+	// regex_str_user_profile := "(userProfileId=[0-9]{4,}$)"
+	// re_user_profile, err := regexp.Compile(regex_str_user_profile)
+	// if err != nil {
+	// 	panic(err)
+	// }
 	doc, _ := goquery.NewDocumentFromResponse(resp)
 	doc.Find("Document View VBoxView View MatrixView VBoxView:nth-child(1) VBoxView VBoxView VBoxView").Each(func(_ int, s *goquery.Selection) {
-		title_node := s.Find("HBoxView>TextView>SetFontStyle>b").First()
-		title := title_node.Text()
+		titleNode := s.Find("HBoxView>TextView>SetFontStyle>b").First()
+		title := titleNode.Text()
 		if title != "" {
 			reviewIDURL, idExists := s.Find("HBoxView VBoxView GotoURL").First().Attr("url")
 			if idExists {
@@ -182,17 +182,14 @@ func (this *IOSAppController) GetAppReview() {
 						num = num + 1
 						if num == 4 {
 							content = sc.Text()
+							log.Println(content)
 						}
 					})
-					s.Find("GotoURL").Each(func(_ int, sd *goquery.Selection) {
-						userProfileURL, _ := sd.Attr("url")
-						if re_user_profile.FindString(userProfileURL) != "" {
-							versionAndDate = sd.Parent().Text()
-							versionAndDate = strings.Replace(versionAndDate, "\n", "", -1)
-							versionAndDate = strings.Replace(versionAndDate, " ", "", -1)
-							log.Printf("version and date: %v", versionAndDate)
-						}
-					})
+					userProfileNode := s.Find("HBoxView TextView SetFontStyle GotoURL").First()
+					versionAndDate = userProfileNode.Parent().Text()
+					versionAndDate = strings.Replace(versionAndDate, "\n", "", -1)
+					versionAndDate = strings.Replace(versionAndDate, " ", "", -1)
+					log.Printf("version and date: %v", versionAndDate)
 					var appreview models.AppReview
 					appreview.AppID = keyName
 					appreview.ReviewID = reviewID
