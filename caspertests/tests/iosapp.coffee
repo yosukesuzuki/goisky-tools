@@ -3,7 +3,7 @@ system = require 'system'
 # load global settings
 settings = require '../helpers/settings'
 
-casper.test.begin 'test ios app api', 8, (test) ->
+casper.test.begin 'test ios app api', 11, (test) ->
 
   casper.thenOpen settings.baseURL() + "/admin/api/v1/iosapp", ->
     test.assertHttpStatus 200
@@ -38,6 +38,15 @@ casper.test.begin 'test ios app api', 8, (test) ->
       "Content-Type": "application/json; charset=utf-8"
   , ->
     @echo "POST request has been sent."
+    test.assertHttpStatus 200
+    @echo @getPageContent()
+
+  casper.thenOpen settings.baseURL() + "/admin/api/v1/iosapp/app_id1",
+    method: "get"
+    headers:
+      "Content-Type": "application/json; charset=utf-8"
+  , ->
+    @echo "GET request has been sent."
     test.assertHttpStatus 200
     @echo @getPageContent()
 
@@ -81,11 +90,25 @@ casper.test.begin 'test ios app api', 8, (test) ->
   casper.thenOpen settings.baseURL() + "/admin/task/iosapp/getappreview/579581125", ->
     test.assertHttpStatus 200
 
-  # casper.thenOpen settings.baseURL() + "/admin/api/v1/iosapp", ->
-  #   test.assertHttpStatus 200
-  #   jsonData = JSON.parse(@getPageContent())
-  #   test.assertEqual jsonData.items[0].title, "title1", "title of the first entity should be title1"
-  #   test.assertEqual jsonData.items[1].title, "title2", "title of the first entity should be title2"
+  casper.thenOpen settings.baseURL() + "/admin/", ->
+    test.assertHttpStatus 200
+    @click "#go-iosapp"
+
+  casper.then ->
+    @click "#createEntity"
+
+  casper.waitForSelector "form.form", ->
+    @fill "form.form",
+      app_id: "590384791"
+      title: "gunosy"
+      webhook_url: "https://hooks.slack.com/services/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"
+      region: "143462"
+    , false
+    @click "#form-submit-button"
+
+  casper.thenOpen settings.baseURL() + "/admin/task/iosapp/getreviews", ->
+    test.assertHttpStatus 200
+    @echo @getPageContent()
 
   # casper.thenOpen settings.baseURL() + "/admin/api/v1/iosapp/app_id1",
   #   method: "delete"

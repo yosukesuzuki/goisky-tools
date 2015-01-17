@@ -10,7 +10,7 @@
       <div class="blog-post" v-repeat="items">
         <h2 class="blog-post-title">{{formTitle}}</h2>
         <p>{{formDescription}}</p>
-        <a type="button" href="/admin/form/#/{{modelName}}/list" class="btn btn-default btn-lg btn-block">
+        <a type="button" href="/admin/form/#/{{modelName}}/list" class="btn btn-default btn-lg btn-block" id="go-{{modelName}}">
             <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
             go setting
         </a>
@@ -34,7 +34,7 @@
             <textarea name="{{fieldName}}" id="f_{{fieldName}}" v-model="fieldValue"></textarea>
           </div>
           <div v-if="fieldType == 'select'">
-            <select v-model="fieldValue" options="options"></select>
+            <select name="{{fieldName}}" v-model="fieldValue" options="options"></select>
           </div>
         </div>
         <button type="button" class="btn btn-primary btn-lg" v-on="click: submitUpdate" id="form-submit-button">Submit</button>
