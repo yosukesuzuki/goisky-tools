@@ -19,7 +19,7 @@ install:
 - export PATH=$GAE:$PATH
 - which go
 - go env
-- go get github.com/astaxie/beegae
+- goapp get github.com/astaxie/beegae
 before_script:
 - goapp serve &
 - sleep 5
