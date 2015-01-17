@@ -52,6 +52,7 @@ BuildFormUpdate = (schema,keyName) ->
             v.fieldValue = data[v.fieldName]
     methods:
       cancel: (e) ->
+        formVue.$destroy()
         location.hash = "/"+schema.modelName+"/list"
       submitUpdate: (e) ->
         e.preventDefault()
