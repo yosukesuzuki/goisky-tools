@@ -1,4 +1,4 @@
-application: slacktools
+application: goisky-tools
 version: 1
 runtime: go
 api_version: go1
