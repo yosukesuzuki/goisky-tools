@@ -28,12 +28,3 @@ before_script:
 - sleep 5
 script:
 - casperjs --pre=caspertests/helpers/adminlogin.coffee test caspertests/tests
-after_success:
-- python $GAE/appcfg.py update . --oauth2_refresh_token=$GAE_OAUTH -A dev-slacktools
-after_script:
-- casperjs --pre=caspertests/helpers/adminlogin.coffee test caspertests/tests --env=gaedev --user_id=$GAE_TEST_USER --user_password=$GAE_TEST_USER_PASSWORD
-env:
-  global:
-  - secure: KiEdocf9yqxGaBaMO+5YwfrHWKEMIkqSZx40uOenLCJWvQbm+KRlvTjqyGR/SxJDqjYwS82LAdMILqhzVSjdhPgyJSSzMXXL/YkKccedkZJabHu6FXXwlkSRyxIyr1JRqeSzzSQHtYb8VqtKQ8GwqBeWcS9mZtT5Fhxx+WcH6QQ=
-  - secure: nksf9ORgB4yMnjf9qHbH0IfGgj9J4Nsk1bwArTMLDyxSDIduEg7p80HXPqD0K9KTrfshs8HqouYDz8T5z9wORn8sKLA/2c9I/CXl5H1Rh5CZY3V8Ai4jo2VDudvrtM8pfKoOFB3psWJVxAAfAp6PMYcVZ8uYb07HrK18CFL5Pvs=
-  - secure: IJvZ47LmYAxck5iqWaz7xhIt9Adj/Zq+jN/W86n+a5Fi7XRs6ZHSif1ZRrCacOT272//gHieG3ItCWS44i8e8bo1l/H9Vkp71juRinLD4fOE9LLboV4xtKfX7GOJcTM1vQTp0eKoZsvT6eRY7kSvEBZ84+tdkj2xnNYNFfQMMM8=
