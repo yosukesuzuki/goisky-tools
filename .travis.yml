@@ -15,8 +15,11 @@ before_install:
 install:
 - cd $TRAVIS_BUILD_DIR
 - export GOPATH=$TRAVIS_BUILD_DIR
+- echo $GOPATH
 - export GOHOME=$GAE
 - export PATH=$GAE:$PATH
+- export GOROOT=`go env GOROOT`
+- export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 - which go
 - go env
 - chmod +x ./ciscripts/goget.sh

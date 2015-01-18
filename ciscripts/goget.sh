@@ -14,5 +14,6 @@ goapp get github.com/PuerkitoBio/goquery
 # go get github.com/go-sql-driver/mysql
 # goapp get github.com/astaxie/beego
 goapp get github.com/astaxie/beegae
+goapp get github.com/beego/bee
 echo "dependencies fetched."
 exit 0
