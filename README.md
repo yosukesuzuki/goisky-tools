@@ -28,14 +28,43 @@ $ go get github.com/astaxie/beegae
 $ go get github.com/PuerkitoBio/goquery
 ```
 
+## clone this repository
+```
+$ git clone git@github.com:yosukesuzuki/goisky-tools.git
+```
+
 ## setup gulp for coffee script compile
 if you want to customize frontend, see this document(Japanese)
 http://qiita.com/mizchi/items/10a8e2b3e6c2c3235e61
+
+## run local server
+```
+$ goapp serve
+```
+
+## run local e2e test
+```
+$ casperjs --pre=caspertests/helpers/adminlogin.coffee test caspertests/tests
+```
 
 ## deploy
 ```
 $ goapp deploy
 ```
+
+# how to use tools
+## AppStore review notification
+open /admin/ and click go setting
+
+![Goisky_Tools_on_GAE_Go.png](https://qiita-image-store.s3.amazonaws.com/0/45686/c3db4890-c40d-a42e-edf8-45a0c9fe8935.png "Goisky_Tools_on_GAE_Go.png")
+
+click Create new entity button
+![Goisky_Tools_on_GAE_Go.png](https://qiita-image-store.s3.amazonaws.com/0/45686/0aee7755-a3b1-1357-02aa-6c8aa3b56606.png "Goisky_Tools_on_GAE_Go.png")
+
+fill in the form and submit
+![Goisky_Tools_on_GAE_Go.png](https://qiita-image-store.s3.amazonaws.com/0/45686/2c79525a-fbe3-9226-a10f-7997c6abf03e.png "Goisky_Tools_on_GAE_Go.png")
+
+
 
 # libraries
 ## go
