@@ -4,7 +4,7 @@ Goisky Tools
 [![Build Status](https://travis-ci.org/yosukesuzuki/goisky-tools.svg?branch=master)](https://travis-ci.org/yosukesuzuki/goisky-tools)
 
 # version
-0.1
+0.2
 
 # tools
 - AppStore review notification
