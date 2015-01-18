@@ -19,6 +19,7 @@ install:
 - export PATH=$GAE:$PATH
 - which go
 - go env
+- chmod +x ./ciscripts/goget.sh
 - ./ciscripts/goget.sh
 before_script:
 - goapp serve &
