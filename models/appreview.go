@@ -38,7 +38,7 @@ func NotifyReviewToSlack(c appengine.Context, ar *AppReview) {
 		return
 	}
 	client := urlfetch.Client(c)
-	iconURL := "http://slacktools.appspot.com/media/img/appreviewicon.png"
+	iconURL := "https://goisky-tools.appspot.com/media/img/appreviewicon.png"
 	if iosapp.IconURL != "" {
 		iconURL = iosapp.IconURL
 	}
