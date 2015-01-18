@@ -1,7 +1,7 @@
-slacktools
+Goisky Tools
 ==========
 
-[![Build Status](https://travis-ci.org/yosukesuzuki/slacktools.svg?branch=master)](https://travis-ci.org/yosukesuzuki/slacktools)
+[![Build Status](https://travis-ci.org/yosukesuzuki/goisky-tools.svg?branch=master)](https://travis-ci.org/yosukesuzuki/goisky-tools)
 
 # version
 0.1
