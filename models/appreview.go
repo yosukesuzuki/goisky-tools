@@ -43,7 +43,7 @@ func NotifyReviewToSlack(c appengine.Context, ar *AppReview) {
 		iconURL = iosapp.IconURL
 	}
 	text := "[" + iosapp.Title + "]\n" + ar.Title + ":\n" + ar.Content + "\n" + ar.Version
-	payload := map[string]string{"text": text, "username": "slacktools", "icon_url": iconURL}
+	payload := map[string]string{"text": text, "username": "app review", "icon_url": iconURL}
 	payloadJSON, err := json.Marshal(payload)
 	if err != nil {
 		c.Errorf("%v", err)
