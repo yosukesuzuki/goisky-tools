@@ -3,8 +3,8 @@ before_install:
 - pushd $HOME
 - mkdir go
 - export GOPATH=$HOME/go
-- wget -q https://storage.googleapis.com/appengine-sdks/featured/go_appengine_sdk_linux_amd64-1.9.17.zip
-- unzip -q go_appengine_sdk_linux_amd64-1.9.17.zip
+- python ciscripts/getlatestsdk.py
+- unzip -q go_appengine_sdk_linux_amd64-latest.zip
 - cd go_appengine
 - export GAE=$(pwd)
 - popd
