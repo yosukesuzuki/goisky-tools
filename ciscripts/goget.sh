@@ -12,7 +12,7 @@ goapp get github.com/PuerkitoBio/goquery
 # go get github.com/siddontang/ledisdb/config
 # go get github.com/siddontang/ledisdb/ledis
 # go get github.com/go-sql-driver/mysql
-goapp get github.com/astaxie/beego
+# goapp get github.com/astaxie/beego
 goapp get github.com/astaxie/beegae
 echo "dependencies fetched."
 exit 0
