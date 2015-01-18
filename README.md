@@ -23,6 +23,7 @@ https://cloud.google.com/sdk/#Quick_Start
 ## get go libraries
 ```
 $ go get github.com/astaxie/beegae
+$ go get github.com/PuerkitoBio/goquery
 ```
 
 ## setup gulp for coffee script compile
@@ -37,6 +38,7 @@ $ goapp deploy
 # libraries
 ## go
 - [beegae](https://github.com/astaxie/beegae)
+- [goquery](https://github.com/PuerkitoBio/goquery)
 
 ## javascript
 - [superagent](https://github.com/visionmedia/superagent)
