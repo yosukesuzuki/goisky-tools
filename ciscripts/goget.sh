@@ -8,12 +8,11 @@ echo "running go get to fetch dependencies..."
 # go get github.com/couchbaselabs/go-couchbase
 # go get github.com/beego/goyaml2
 # go get github.com/lib/pq
-goapp get github.com/PuerkitoBio/goquery
+go get github.com/PuerkitoBio/goquery
 # go get github.com/siddontang/ledisdb/config
 # go get github.com/siddontang/ledisdb/ledis
 # go get github.com/go-sql-driver/mysql
 # goapp get github.com/astaxie/beego
-goapp get github.com/astaxie/beegae
-goapp get github.com/beego/bee
+go get github.com/astaxie/beegae
 echo "dependencies fetched."
 exit 0
