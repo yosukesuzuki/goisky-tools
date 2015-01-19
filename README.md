@@ -47,6 +47,12 @@ $ goapp serve
 $ casperjs --pre=caspertests/helpers/adminlogin.coffee test caspertests/tests
 ```
 
+## get your application id
+go -> https://appengine.google.com/ and create your application id
+
+## edit app.yaml
+open app.yaml and edit the first line into your application id
+
 ## deploy
 ```
 $ goapp deploy
