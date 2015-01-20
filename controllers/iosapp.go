@@ -87,6 +87,7 @@ func (this *IOSAppController) Post() {
 	if err != nil {
 		errorMessage := ErrorMessage{Status: "error", Message: err.Error()}
 		this.Data["json"] = errorMessage
+		// this.Ctx.Output.SetStatus(400)
 		return
 	}
 	i, err := iosapp.Create(this.AppEngineCtx)
@@ -249,12 +250,12 @@ func decodeIOSApp(r io.ReadCloser) (*models.IOSApp, error) {
 	var iosapp models.IOSApp
 	err := json.NewDecoder(r).Decode(&iosapp)
 	valid := validation.Validation{}
-	valid.Required(iosapp.AppID, "app_id")
-	valid.Numeric(iosapp.AppID, "app_id")
-	valid.Numeric(iosapp.Region, "region")
+	valid.Required(iosapp.AppID, "App ID")
+	valid.Numeric(iosapp.AppID, "App ID")
+	valid.Numeric(iosapp.Region, "Region Code")
 	regex_str := "^http"
 	re, err := regexp.Compile(regex_str)
-	valid.Match(iosapp.WebhookURL, re, "webhook_url")
+	valid.Match(iosapp.WebhookURL, re, "Webhook URL")
 	if valid.HasErrors() {
 		for _, err := range valid.Errors {
 			log.Println(err.Key, err.Message)
