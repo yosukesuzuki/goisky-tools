@@ -9,13 +9,13 @@ import (
 
 // IOSAPP is a kind which store information around iOS App
 type IOSApp struct {
-	KeyName    string    `json:"key_name" datastore:"KeyName" valid:"Numeric"`
-	AppID      string    `json:"app_id" datastore:"AppID" valid:"Numeric"`
+	KeyName    string    `json:"key_name" datastore:"KeyName"`
+	AppID      string    `json:"app_id" datastore:"AppID"`
 	Title      string    `json:"title" datastore:"Tite"`
-	WebhookURL string    `json:"webhook_url" datastore:"WebhookURL" valid:"Match(/^http.*/)"`
-	IconURL    string    `json:"icon_url" datastore:"IconURL" valid:"Match(/^http.*/)"`
+	WebhookURL string    `json:"webhook_url" datastore:"WebhookURL"`
+	IconURL    string    `json:"icon_url" datastore:"IconURL"`
 	Content    string    `json:"content" datastore:"Content,noindex"`
-	Region     string    `json:"region" datastore:"Region" valid:"Numeric"`
+	Region     string    `json:"region" datastore:"Region"`
 	UpdatedAt  time.Time `json:"updated_at" datastore:"UpdatedAt"`
 	CreatedAt  time.Time `json:"created_at" datastore:"CreatedAt"`
 }

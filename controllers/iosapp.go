@@ -44,6 +44,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"log"
 	"net/http"
@@ -58,6 +59,7 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/astaxie/beegae"
+	"github.com/astaxie/beego/validation"
 )
 
 type IOSAppController struct {
@@ -75,11 +77,16 @@ func (this *IOSAppController) Get() {
 	this.Data["json"] = listDataSet
 }
 
+type ErrorMessage struct {
+	Status  string `json:"status"`
+	Message string `json:"message"`
+}
+
 func (this *IOSAppController) Post() {
 	iosapp, err := decodeIOSApp(this.Ctx.Input.Request.Body)
 	if err != nil {
-		log.Println("decode err")
-		this.Data["json"] = err
+		errorMessage := ErrorMessage{Status: "error", Message: err.Error()}
+		this.Data["json"] = errorMessage
 		return
 	}
 	i, err := iosapp.Create(this.AppEngineCtx)
@@ -241,5 +248,18 @@ func decodeIOSApp(r io.ReadCloser) (*models.IOSApp, error) {
 	defer r.Close()
 	var iosapp models.IOSApp
 	err := json.NewDecoder(r).Decode(&iosapp)
+	valid := validation.Validation{}
+	valid.Required(iosapp.AppID, "app_id")
+	valid.Numeric(iosapp.AppID, "app_id")
+	valid.Numeric(iosapp.Region, "region")
+	regex_str := "^http"
+	re, err := regexp.Compile(regex_str)
+	valid.Match(iosapp.WebhookURL, re, "webhook_url")
+	if valid.HasErrors() {
+		for _, err := range valid.Errors {
+			log.Println(err.Key, err.Message)
+			return nil, errors.New(err.Key + " " + err.Message)
+		}
+	}
 	return &iosapp, err
 }
