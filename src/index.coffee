@@ -25,7 +25,7 @@ BuildForm = ->
   modelName = hashArr[1]
   crudMethod = hashArr[2]
   keyName = hashArr[3]
-  schema = schemas[modelName]
+  schema = _.cloneDeep(schemas[modelName])
   switch crudMethod
     when "update" then BuildFormUpdate(schema,keyName)
     when "list" then BuildFormList(schema)
