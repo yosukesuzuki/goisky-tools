@@ -1,6 +1,6 @@
 <div class="container" id="form-container">
 </div>
-<script type="x-template" id="appList">
+<script type="x-template" id="app-list">
   <div class="blog-header">
     <h1 class="blog-title">Goisky Tools</h1>
     <p class="lead blog-description">Slack Collaboration Tools</p>
@@ -18,11 +18,13 @@
     </div>
   </div>
 </script>
-<script type="x-template" id="formTemplate">
+<script type="x-template" id="form-template">
   <div class="blog-header">
     <h1 class="blog-title">{{formTitle}}</h1>
   </div>
   <div class="row">
+    <div id="insert-alert">
+    </div>
     <div class="col-sm-8 blog-main">
       <form class="form" role="form">
         <div class="form-group" v-repeat="items">
@@ -90,6 +92,13 @@
       </table>
     </div>
   </div>
+</script>
+
+<script type="x-template" id="alert-block">
+<div class="alert alert-warning alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" v-on="click: closeAlert"><span aria-hidden="true">&times;</span></button>
+  {{errorMessage}}
+</div>
 </script>
 <script src="/media/js/vue.superagent.min.js"></script>
 <script src="/media/js/moment.min.js"></script>
