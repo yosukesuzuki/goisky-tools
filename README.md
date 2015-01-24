@@ -4,7 +4,7 @@ Goisky Tools
 [![Build Status](https://travis-ci.org/yosukesuzuki/goisky-tools.svg?branch=master)](https://travis-ci.org/yosukesuzuki/goisky-tools)
 
 # version
-0.2
+0.3
 
 # tools
 - AppStore review notification
@@ -24,7 +24,7 @@ https://cloud.google.com/sdk/#Quick_Start
 
 ## get go libraries
 ```
-$ go get github.com/astaxie/beegae
+$ go get github.com/yosukesuzuki/beegae
 $ go get github.com/PuerkitoBio/goquery
 ```
 
@@ -41,6 +41,8 @@ http://qiita.com/mizchi/items/10a8e2b3e6c2c3235e61
 ```
 $ goapp serve
 ```
+
+Then access to localhost:8080 from your browser
 
 ## run local e2e test
 ```
@@ -74,12 +76,13 @@ fill in the form and submit
 
 # libraries
 ## go
-- [beegae](https://github.com/astaxie/beegae)
+- [fork version of beegae](https://github.com/yosukesuzuki/beegae)
 - [goquery](https://github.com/PuerkitoBio/goquery)
 
 ## javascript
 - [superagent](https://github.com/visionmedia/superagent)
 - [dropzone](http://www.dropzonejs.com/)
+- [lodash](https://lodash.com/)
 - [Bootstrap without jQuery](https://github.com/tagawa/bootstrap-without-jquery)
 
 ## css
