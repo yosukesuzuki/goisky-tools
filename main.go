@@ -2,7 +2,7 @@ package main
 
 import (
 	"controllers"
-	"github.com/astaxie/beegae"
+	"github.com/yosukesuzuki/beegae"
 )
 
 func init() {
