@@ -3,7 +3,7 @@ require = patchRequire(global.require)
 env = "localdev"
 settings = {
   localdev : "http://localhost:8080"
-  gaedev : "https://dev-goappstarter.appspot.com"
+  gaedev : "https://dev-goisky-tools.appspot.com"
 }
 
 if casper.cli.has('env')
