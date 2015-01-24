@@ -34,7 +34,6 @@ func (b *BlobStoreImage) Exists(c appengine.Context) bool {
 
 func (b *BlobStoreImage) Create(c appengine.Context) (*BlobStoreImage, error) {
 	b.KeyName = b.BlobKey
-	// b.Title = b.BlobKey
 	b.CreatedAt = time.Now()
 	b.UpdatedAt = time.Now()
 	_, err := datastore.Put(c, b.key(c), b)

@@ -53,7 +53,7 @@ import (
 	"appengine/datastore"
 	"appengine/image"
 
-	"github.com/astaxie/beegae"
+	"github.com/yosukesuzuki/beegae"
 )
 
 type BlobStoreImageController struct {
@@ -71,41 +71,31 @@ func (this *BlobStoreImageController) UploadURL() {
 }
 
 func (this *BlobStoreImageController) Handler() {
-	q := datastore.NewQuery("__BlobInfo__").Order("-creation").Limit(100)
-	t := q.Run(this.AppEngineCtx)
-	for {
-		var bi blobstore.BlobInfo
-		key, err := t.Next(&bi)
-		if err == datastore.Done {
-			break
-		}
-		if err != nil {
-			break
-		}
-		log.Println(appengine.BlobKey(key.StringID()))
-		var imageOptions image.ServingURLOptions
-		imageURL, err := image.ServingURL(this.AppEngineCtx, appengine.BlobKey(key.StringID()), &imageOptions)
-		if err != nil {
-			log.Println("cannot get ServingURL")
-			this.Data["json"] = err
-			return
-		}
-		var blobstoreimage models.BlobStoreImage
-		blobstoreimage.Title = bi.Filename
-		imageURLString := "//" + imageURL.Host + imageURL.Path
-		blobstoreimage.BlobKey = string(key.StringID())
-		blobstoreimage.ImageURL = imageURLString
-		blobstoreimageExists := blobstoreimage.Exists(this.AppEngineCtx)
-		if blobstoreimageExists == false {
-			_, err = blobstoreimage.Create(this.AppEngineCtx)
-			if err != nil {
-				log.Println("cannot create entity")
-				this.Data["json"] = err
-				return
-			}
-
-		}
+	blobs, _, err := blobstore.ParseUpload(this.Ctx.Request)
+	if err != nil {
+		log.Println("parse error")
+		this.Data["json"] = err
+		return
 	}
+	file := blobs["file"]
+	if len(file) == 0 {
+		log.Println("no file uploaded")
+		this.Data["json"] = err
+		return
+	}
+	var imageOptions image.ServingURLOptions
+	imageURL, err := image.ServingURL(this.AppEngineCtx, file[0].BlobKey, &imageOptions)
+	if err != nil {
+		log.Println("cannot get ServingURL")
+		this.Data["json"] = err
+		return
+	}
+	var blobstoreimage models.BlobStoreImage
+	imageURLString := "//" + imageURL.Host + imageURL.Path
+	blobstoreimage.BlobKey = string(file[0].BlobKey)
+	blobstoreimage.Title = file[0].Filename
+	blobstoreimage.ImageURL = imageURLString
+	_, err = blobstoreimage.Create(this.AppEngineCtx)
 	this.Data["json"] = map[string]string{"status": "done"}
 }
 
@@ -173,6 +163,12 @@ func (this *BlobStoreImageController) DeleteEntity() {
 	keyName := this.Ctx.Input.Param(":key_name")
 	key := datastore.NewKey(this.AppEngineCtx, "BlobStoreImage", keyName, 0, nil)
 	err := datastore.Delete(this.AppEngineCtx, key)
+	if err == nil {
+		this.Data["json"] = nil
+	} else {
+		this.Data["json"] = err
+	}
+	err = blobstore.Delete(this.AppEngineCtx, appengine.BlobKey(keyName))
 	if err == nil {
 		this.Data["json"] = nil
 	} else {

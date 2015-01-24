@@ -58,8 +58,8 @@ import (
 	"appengine/urlfetch"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/astaxie/beegae"
 	"github.com/astaxie/beego/validation"
+	"github.com/yosukesuzuki/beegae"
 )
 
 type IOSAppController struct {
