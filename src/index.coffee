@@ -15,7 +15,7 @@ BuildAppList =->
     items.push value
   listVue = new Vue(
     el: "#form-container"
-    template: "#appList"
+    template: "#app-list"
     data:
       items: items
   )
@@ -25,7 +25,7 @@ BuildForm = ->
   modelName = hashArr[1]
   crudMethod = hashArr[2]
   keyName = hashArr[3]
-  schema = schemas[modelName]
+  schema = _.cloneDeep(schemas[modelName])
   switch crudMethod
     when "update" then BuildFormUpdate(schema,keyName)
     when "list" then BuildFormList(schema)
@@ -39,7 +39,7 @@ SetPostData = (items) ->
 BuildFormUpdate = (schema,keyName) ->
   formVue = new Vue(
     el: "#form-container"
-    template: "#formTemplate"
+    template: "#form-template"
     data:
       formTitle: schema.formTitle
       items: schema.schema
@@ -56,8 +56,6 @@ BuildFormUpdate = (schema,keyName) ->
         location.hash = "/"+schema.modelName+"/list"
       submitUpdate: (e) ->
         e.preventDefault()
-        this.$event.toElement.innerHTML = "..loading"
-        this.$event.toElement.setAttribute("disabled","disabled")
         request = window.superagent
         request.post(schema.apiEndpoint)
           .send(SetPostData(@$data.items))
@@ -66,6 +64,17 @@ BuildFormUpdate = (schema,keyName) ->
             unless error?
               items = res.body
               console.log items
+              if items.status == "error"
+                alertVue = new Vue(
+                  el: "#insert-alert"
+                  template: "#alert-block"
+                  data:
+                    errorMessage: items.message
+                  methods:
+                    closeAlert: (e) ->
+                      document.querySelector("#insert-alert").innerHTML = ""
+                )
+                return
               location.hash = "/"+schema.modelName+"/list"
               location.reload()
   )
