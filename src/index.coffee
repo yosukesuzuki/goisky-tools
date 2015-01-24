@@ -96,7 +96,7 @@ BuildFormList = (schema) ->
           
       deleteEntity: (e) ->
         if window.confirm('Delete this entity?')
-          keyName = e.targetVM.$data.app_id
+          keyName = e.targetVM.$data.key_name
           request = window.superagent
           request.del schema.apiEndpoint+"/"+keyName, (res) ->
             items = res.body
@@ -267,7 +267,13 @@ blobStoreImageSchema = [
   {
     fieldTitle: "Image URL"
     fieldName:"image_url"
-    fieldType:"inputtext"
+    fieldType:"disabledtext"
+    fieldValue:""
+  }
+  {
+    fieldTitle: "Blob Key"
+    fieldName:"blob_key"
+    fieldType:"disabledtext"
     fieldValue:""
   }
 ]

@@ -48,6 +48,7 @@ import (
 	"log"
 	"models"
 
+	"appengine"
 	"appengine/blobstore"
 	"appengine/datastore"
 	"appengine/image"
@@ -95,41 +96,6 @@ func (this *BlobStoreImageController) Handler() {
 	blobstoreimage.Title = file[0].Filename
 	blobstoreimage.ImageURL = imageURLString
 	_, err = blobstoreimage.Create(this.AppEngineCtx)
-	// q := datastore.NewQuery("__BlobInfo__").Order("-creation").Limit(100)
-	// t := q.Run(this.AppEngineCtx)
-	// for {
-	// 	var bi blobstore.BlobInfo
-	// 	key, err := t.Next(&bi)
-	// 	if err == datastore.Done {
-	// 		break
-	// 	}
-	// 	if err != nil {
-	// 		break
-	// 	}
-	// 	log.Println(appengine.BlobKey(key.StringID()))
-	// 	var imageOptions image.ServingURLOptions
-	// 	imageURL, err := image.ServingURL(this.AppEngineCtx, appengine.BlobKey(key.StringID()), &imageOptions)
-	// 	if err != nil {
-	// 		log.Println("cannot get ServingURL")
-	// 		this.Data["json"] = err
-	// 		return
-	// 	}
-	// 	var blobstoreimage models.BlobStoreImage
-	// 	blobstoreimage.Title = bi.Filename
-	// 	imageURLString := "//" + imageURL.Host + imageURL.Path
-	// 	blobstoreimage.BlobKey = string(key.StringID())
-	// 	blobstoreimage.ImageURL = imageURLString
-	// 	blobstoreimageExists := blobstoreimage.Exists(this.AppEngineCtx)
-	// 	if blobstoreimageExists == false {
-	// 		_, err = blobstoreimage.Create(this.AppEngineCtx)
-	// 		if err != nil {
-	// 			log.Println("cannot create entity")
-	// 			this.Data["json"] = err
-	// 			return
-	// 		}
-
-	// 	}
-	// }
 	this.Data["json"] = map[string]string{"status": "done"}
 }
 
@@ -197,6 +163,12 @@ func (this *BlobStoreImageController) DeleteEntity() {
 	keyName := this.Ctx.Input.Param(":key_name")
 	key := datastore.NewKey(this.AppEngineCtx, "BlobStoreImage", keyName, 0, nil)
 	err := datastore.Delete(this.AppEngineCtx, key)
+	if err == nil {
+		this.Data["json"] = nil
+	} else {
+		this.Data["json"] = err
+	}
+	err = blobstore.Delete(this.AppEngineCtx, appengine.BlobKey(keyName))
 	if err == nil {
 		this.Data["json"] = nil
 	} else {

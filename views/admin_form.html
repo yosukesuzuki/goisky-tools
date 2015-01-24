@@ -32,6 +32,9 @@
           <div v-if="fieldType == 'inputtext'">
             <input type="text" class="form-control" name="{{fieldName}}" id="f_{{fieldName}}" v-model="fieldValue">
           </div>
+          <div v-if="fieldType == 'disabledtext'">
+            <input type="text" class="form-control" name="{{fieldName}}" id="f_{{fieldName}}" v-model="fieldValue" disabled="disabled">
+          </div>
           <div v-if="fieldType == 'textarea'">
             <textarea name="{{fieldName}}" id="f_{{fieldName}}" v-model="fieldValue"></textarea>
           </div>

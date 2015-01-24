@@ -8,7 +8,7 @@ Goisky Tools
 
 # tools
 - AppStore review notification
-- Blobstore image uploader(not working yet)
+- Blobstore image uploader
 
 
 # setup
