@@ -28,6 +28,7 @@ def dlfile(url):
         # Open our local file for writing
         with open("go_appengine_sdk_linux_amd64-latest.zip", "wb") as local_file:
             local_file.write(f.read())
+        local_file.close()
 
     # handle errors
     except HTTPError, e:
@@ -37,10 +38,8 @@ def dlfile(url):
 
 
 def main():
-    # Iterate over image ranges
-    for index in range(150, 151):
-        url = get_latest_sdk_url()
-        dlfile(url)
+    url = get_latest_sdk_url()
+    dlfile(url)
 
 if __name__ == '__main__':
     main()
