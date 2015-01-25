@@ -8,9 +8,8 @@ casper.test.begin 'test blobstoreimage app api', 10, (test) ->
   casper.thenOpen settings.baseURL() + "/admin/api/v1/blobstoreimage", ->
     test.assertHttpStatus 200
 
-  casper.thenOpen settings.baseURL() + "/admin/api/v1/blobstoreimage", ->
+  casper.thenOpen settings.baseURL() + "/admin/api/v1/blobstoreimage/uploadurl", ->
     test.assertHttpStatus 200
-
 
   # add entity by post
   casper.thenOpen settings.baseURL() + "/admin/api/v1/blobstoreimage",
