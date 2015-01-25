@@ -61,7 +61,7 @@ type BlobStoreImageController struct {
 }
 
 func (this *BlobStoreImageController) UploadURL() {
-	uploadURL, err := blobstore.UploadURL(this.AppEngineCtx, "/admin/blobstoreimage/handler", nil)
+	uploadURL, err := blobstore.UploadURL(this.AppEngineCtx, "/admin/api/v1/blobstoreimage/handler", nil)
 	if err != nil {
 		this.Data["json"] = err
 		return
