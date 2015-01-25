@@ -22,9 +22,14 @@ install:
 - which go
 - go env
 - chmod +x ./ciscripts/goget.sh
-- ./ciscripts/goget.sh
+- "./ciscripts/goget.sh"
 before_script:
 - goapp serve &
 - sleep 5
 script:
 - casperjs --pre=caspertests/helpers/adminlogin.coffee test caspertests/tests
+after_success:
+- python $GAE/appcfg.py update . --oauth2_refresh_token=$GAE_OAUTH
+env:
+  global:
+    secure: PSer9F5AvKn14g87tHrTQDT/5ASEPpYqZgm7A0Egdifj16/pG1KujHuuvNHWkgRB2rqzuWQx/xwwHw13EL63hVlt8MEJi5e9CgSjhiIsYhIzDFDcLaAbz/tYwkru6oZO1i3aomi8kBNqObctmMGbsHg7e9XamozfgmNjkyZ5hYY=
