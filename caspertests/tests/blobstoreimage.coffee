@@ -3,10 +3,14 @@ system = require 'system'
 # load global settings
 settings = require '../helpers/settings'
 
-casper.test.begin 'test blobstoreimage app api', 9, (test) ->
+casper.test.begin 'test blobstoreimage app api', 10, (test) ->
 
   casper.thenOpen settings.baseURL() + "/admin/api/v1/blobstoreimage", ->
     test.assertHttpStatus 200
+
+  casper.thenOpen settings.baseURL() + "/admin/api/v1/blobstoreimage", ->
+    test.assertHttpStatus 200
+
 
   # add entity by post
   casper.thenOpen settings.baseURL() + "/admin/api/v1/blobstoreimage",
